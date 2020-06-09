@@ -29,7 +29,8 @@
     {
         if (!(await AuthenticationState).User.Identity.IsAuthenticated)
         {
-            navigationManager.NavigateTo("/login");
+            // navigationManager.NavigateTo("/login");
+            await authStateProvider.LoginAnonymous();
         }
     }
 

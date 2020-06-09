@@ -23,6 +23,15 @@ namespace Erth.Client.States
             this._authorizeApi = authorizeApi;
         }
 
+        public async Task LoginAnonymous()
+        {
+            await Login(new LoginParameters {
+                UserName="anonymous",
+                Password="123456",
+                RememberMe=true
+            });
+        }
+
         public async Task Login(LoginParameters loginParameters)
         {
             await _authorizeApi.Login(loginParameters);
