@@ -1,4 +1,5 @@
 ﻿using Erth.Server.Models;
+using Erth.Shared.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,9 @@ namespace Erth.Server.Data
             // Add your customizations after calling base.OnModelCreating(builder);
 
         }
+
+        public DbSet<CdLabel> CdLabels { get; set; }
+        public DbSet<RegistredLabel> RegisteredLabels { get; set; }
 
     }
 }
