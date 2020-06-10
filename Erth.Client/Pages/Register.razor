@@ -16,11 +16,11 @@
     <ValidationMessage For="@(() => registerParameters.UserName)" />
 
     <label for="inputPassword" class="sr-only">رمز عبور</label>
-    <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="@registerParameters.Password" />
+    <InputText type="password" id="inputPassword" class="form-control" placeholder="رمز" @bind-Value="@registerParameters.Password" />
     <ValidationMessage For="@(() => registerParameters.Password)" />
 
     <label for="inputPasswordConfirm" class="sr-only">تکرار رمز عبور</label>
-    <InputText type="password" id="inputPasswordConfirm" class="form-control" placeholder="Password Confirmation" @bind-Value="@registerParameters.PasswordConfirm" />
+    <InputText type="password" id="inputPasswordConfirm" class="form-control" placeholder="تکرار رمز" @bind-Value="@registerParameters.PasswordConfirm" />
     <ValidationMessage For="@(() => registerParameters.PasswordConfirm)" />
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">ایجاد اکانت</button>
