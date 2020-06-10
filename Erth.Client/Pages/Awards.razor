@@ -15,10 +15,10 @@
             <div class="col-md-4">
             <div class="thumbnail">
                     <a href="@award.img" target="_blank">
-                    <img src="/images/Erth03Prize_Big.jpg" alt="@award.title" style="width:100%">
+                    <img src="@string.Format("/images/{0}", award.img)" alt="@award.title" style="width:100%">
                     <div class="caption">
-                        <h4>@award.title</h4>
-                        <p>@award.desc</p>
+                        <p class="text-center">@award.title</p>
+                        @* <p>@award.desc</p> *@
                     </div>
                     </a>
                 </div>
