@@ -1,8 +1,17 @@
 @page "/awards"
+@page "/awards/{typeShow}"
 
 @inject HttpClient Http
 
-<h3 class="center">جوایز، تقدیرنامه ها</h3>
+@if (typeShow == "govahi")
+{
+    <h3 class="center">گواهینامه ها</h3>
+}
+else
+{
+    <h3 class="center">جوایز، تقدیرنامه ها</h3>
+}
+
 <div class="row">
     @if (AwardsArr == null)
     {
@@ -28,13 +37,23 @@
 </div>
 
 @code {
-    
+    [Parameter]
+    public string typeShow { get; set; }= "award";
+
     public AwardModel[] AwardsArr;
 
-    protected override async Task OnInitializedAsync()
+
+    protected override async Task  OnParametersSetAsync()
     {
         try {
-            AwardsArr = await Http.GetFromJsonAsync<AwardModel[]>("awards.json");
+            if (typeShow == "govahi")
+            {
+                AwardsArr = await Http.GetFromJsonAsync<AwardModel[]>("govahies.json");
+            }
+            else
+            {
+                AwardsArr = await Http.GetFromJsonAsync<AwardModel[]>("awards.json");
+            }
         }
         catch (Exception err) {
             AwardsArr = null;
