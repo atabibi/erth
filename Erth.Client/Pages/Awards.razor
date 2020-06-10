@@ -1,0 +1,52 @@
+@page "/awards"
+
+@inject HttpClient Http
+
+<h3 class="center">جوایز، تقدیرنامه ها</h3>
+<div class="row">
+    @if (AwardsArr == null)
+    {
+        <p><em>بارگیری...</em></p>
+    }
+    else
+    {
+        @foreach (AwardModel award in AwardsArr)
+        {
+            <div class="col-md-4">
+            <div class="thumbnail">
+                    <a href="@award.img" target="_blank">
+                    <img src="/images/Erth03Prize_Big.jpg" alt="@award.title" style="width:100%">
+                    <div class="caption">
+                        <h4>@award.title</h4>
+                        <p>@award.desc</p>
+                    </div>
+                    </a>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    
+    public AwardModel[] AwardsArr;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try {
+            AwardsArr = await Http.GetFromJsonAsync<AwardModel[]>("awards.json");
+        }
+        catch (Exception err) {
+            AwardsArr = null;
+            Console.WriteLine(err);
+        }
+        
+    }
+
+    public class AwardModel {
+        public string title { get; set; }
+        public string desc { get; set; }
+        public string img { get; set; }
+    }
+
+}
