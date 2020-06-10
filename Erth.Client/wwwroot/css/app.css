@@ -84,8 +84,8 @@ app {
         font-size: 1.1rem;
     }
 
-    .sidebar .oi {
-        /* width: 2rem; */
+    .sidebar .oi, .sidebar .iconify {
+        width: 2rem;
         font-size: 1.1rem;
         vertical-align: text-top;
         top: -2px;
@@ -174,15 +174,16 @@ app {
     text-align: center;
 }
 
-img {
+img.scaled {
     transform: scale(1);
     transition-duration: 1000ms;    
 }
 
-img:hover {
+img.scaled:hover {
     transform: scale(1.5);
     transition-duration: 1000ms;
     cursor: pointer;
+    z-index: 10;
 }
 
 @media (max-width: 767.98px) {
