@@ -3,20 +3,20 @@
 @inject NavigationManager navigationManager
 @inject IdentityAuthenticationStateProvider authStateProvider
 
-<h1 class="h2 font-weight-normal login-title">
+<h2 class="h2 font-weight-normal login-title">
     نرم افزار ارث- بخش مدیریت
-</h1>
+</h2>
 
 <EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="loginParameters">
     <DataAnnotationsValidator />
     <h4 class="font-weight-normal text-center">ورود</h4>
 
     <label for="inputUsername" class="sr-only">نام کاربری</label>
-    <InputText id="inputUsername" class="form-control" @bind-Value="loginParameters.UserName" autofocus placeholder="Username" />
+    <InputText id="inputUsername" class="form-control" @bind-Value="loginParameters.UserName" autofocus placeholder="نام کاربری" />
     <ValidationMessage For="@(() => loginParameters.UserName)" />
 
-    <label for="inputPassword" class="sr-only">Password</label>
-    <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="loginParameters.Password" />
+    <label for="inputPassword" class="sr-only">رمز عبور</label>
+    <InputText type="password" id="inputPassword" class="form-control" placeholder="رمز عبور" @bind-Value="loginParameters.Password" />
     <ValidationMessage For="@(() => loginParameters.Password)" />
 
     <div class="form-check m-3">
@@ -25,6 +25,7 @@
     </div>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">ورود</button>
+    <a class="btn btn-lg btn-success btn-block" href="/">ورود به بخش عمومی</a>
 
     <label class="text-danger">@error</label>
 

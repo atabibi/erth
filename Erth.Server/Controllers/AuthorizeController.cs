@@ -27,9 +27,9 @@ namespace Erth.Server.Controllers
         public async Task<IActionResult> Login(LoginParameters parameters)
         {
             var user = await _userManager.FindByNameAsync(parameters.UserName);
-            if (user == null) return BadRequest("User does not exist");
+            if (user == null) return BadRequest("کاربر یافت نشد");
             var singInResult = await _signInManager.CheckPasswordSignInAsync(user, parameters.Password, false);
-            if (!singInResult.Succeeded) return BadRequest("Invalid password");
+            if (!singInResult.Succeeded) return BadRequest("رمز عبور معتبر نیست");
 
             await _signInManager.SignInAsync(user, parameters.RememberMe);
 

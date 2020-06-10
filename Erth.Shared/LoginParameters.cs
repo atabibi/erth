@@ -7,10 +7,10 @@ namespace Erth.Shared
 {
     public class LoginParameters
     {
-        [Required]
+        [Required(ErrorMessage="نام کاربری را وارد کنید")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage="رمز عبور را وارد کنید")]
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }
