@@ -4,14 +4,14 @@
 @inject IdentityAuthenticationStateProvider authStateProvider
 
 <h1 class="h2 font-weight-normal login-title">
-    Blazor with Identity Sample
+    نرم افزار ارث- بخش مدیریت
 </h1>
 
 <EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="loginParameters">
     <DataAnnotationsValidator />
-    <h4 class="font-weight-normal text-center">Login</h4>
+    <h4 class="font-weight-normal text-center">ورود</h4>
 
-    <label for="inputUsername" class="sr-only">User Name</label>
+    <label for="inputUsername" class="sr-only">نام کاربری</label>
     <InputText id="inputUsername" class="form-control" @bind-Value="loginParameters.UserName" autofocus placeholder="Username" />
     <ValidationMessage For="@(() => loginParameters.UserName)" />
 
@@ -21,16 +21,16 @@
 
     <div class="form-check m-3">
         <InputCheckbox id="inputRememberMe" class="form-check-input" @bind-Value="@loginParameters.RememberMe" />
-        <label class="form-check-label" for="inputRememberMe">Remember Me</label>
+        <label class="form-check-label" for="inputRememberMe">بخاطر بسپار</label>
     </div>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">ورود</button>
 
     <label class="text-danger">@error</label>
 
-    <NavLink href="register">
+    @* <NavLink href="register">
         <h6 class="font-weight-normal text-center">Create account</h6>
-    </NavLink>
+    </NavLink> *@
 </EditForm>
 
 @code{

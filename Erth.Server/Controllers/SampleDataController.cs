@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Erth.Server.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Roles="admin")]
     public class SampleDataController : Controller
     {
         private static string[] Summaries = new[]
