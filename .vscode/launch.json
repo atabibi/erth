@@ -11,7 +11,10 @@
             "hosted": true,
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/Erth.Server/bin/Debug/netcoreapp3.1/Erth.Server.dll",
-            "cwd": "${workspaceFolder}/Erth.Server"
+            "cwd": "${workspaceFolder}/Erth.Server",
+            
+            // Added to enable debugging: By Tabibi
+            "url": "http://localhost:5000"
         }
     ]
 }
