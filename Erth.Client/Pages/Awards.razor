@@ -23,7 +23,7 @@ else
         {
             <div class="col-md-4">
             <div class="thumbnail">
-                    <a href="@award.img" target="_blank">
+                    <a href="@string.Format("/images/{0}", award.img)" target="_blank">
                     <img src="@string.Format("/images/{0}", award.img)" alt="@award.title" class="scaled" style="width:100%">
                     <div class="caption">
                         <p class="text-center">@award.title</p>
