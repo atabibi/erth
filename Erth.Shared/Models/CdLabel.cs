@@ -11,6 +11,10 @@ namespace Erth.Shared.Models
         // 0: pro; 1: student
         public int TypeErth { get; set; }
 
+        public string CustomerName { get; set; }
+
+        public string CustomerUnited { get; set; }
+
         public ICollection<RegistredLabel> RegisteredLabels { get; set; }
     }
 }

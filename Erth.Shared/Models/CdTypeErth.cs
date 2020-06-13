@@ -5,4 +5,12 @@ namespace Erth.Shared.Models
         Pro,
         Student
     }
+
+    public enum RegisteredCdType
+    {
+        ProUnRegistered,
+        ProRegistered,
+        StudentUnRegistered,
+        StudentRegistered
+    }
 }
