@@ -1,0 +1,52 @@
+@page "/admin"
+
+<AuthorizeView>
+    <Authorized>
+        <h3 class="center">بخش مدیریت</h3>
+        <div class="row">
+            <div class="col-md-3">
+                <button type="button" name="btnStudentRegisteredCDs" id="btnStudentRegisteredCDs" class="btn btn-primary btn-block mb-1" @onclick="@(()=> {BtnsClicked(RegisteredCdType.StudentRegistered);})">کدهای ثبت شده دانشجویی</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" name="btnProRegisteredCDs" id="btnProRegisteredCDs" class="btn btn-success btn-block mb-1" @onclick="@(()=> {BtnsClicked(RegisteredCdType.ProRegistered);})">کدهای ثبت شده حرفه‌ای</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" name="btnStudentRawCDs" id="btnStudentRawCDs" class="btn btn-warning btn-block mb-1" @onclick="@(()=> {BtnsClicked(RegisteredCdType.StudentUnRegistered);})">برچسب‌های خام دانشجویی</button>
+            </div>
+            <div class="col-md-3">
+                <button type="button" name="btnProRawCDs" id="btnProRawCDs" class="btn btn-danger btn-block mb-1" @onclick="@(()=> {BtnsClicked(RegisteredCdType.ProUnRegistered);})">برچسب‌های خام حرفه‌ای</button>
+            </div>
+        </div>
+        
+        <div class="row">
+            <strong>@strSelectedType</strong>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+
+    private string strSelectedType="";
+    public void BtnsClicked(RegisteredCdType cdType)
+    {
+        switch (cdType)
+        {
+            case RegisteredCdType.ProRegistered:
+                strSelectedType = "کدهای ثبت شده نسخه حرفه ای";
+                break;
+            case RegisteredCdType.ProUnRegistered:
+                strSelectedType = "کدهای خام نسخه حرفه ای";
+                break;
+            case RegisteredCdType.StudentRegistered:
+                strSelectedType = "ثبت شده نسخه دانشجویی";
+                break;
+            case RegisteredCdType.StudentUnRegistered:
+                strSelectedType = "کدهای خام نسخه دانشجویی";
+                break;            
+            default:
+                strSelectedType = "";
+                break;
+        }
+    }
+}
