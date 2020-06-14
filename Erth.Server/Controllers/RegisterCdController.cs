@@ -182,6 +182,59 @@ namespace Erth.Server.Controllers
                 });
             }
         }
+
+        [HttpPut]
+        [Authorize(Roles="admin")]
+        public async Task<IActionResult> Put(NewCdLabelVM newCdLabel)
+        {
+            try
+            {
+                // اولین لیبلی که فیلدهای
+                // CustomerName and CustomerUnited
+                // آن خالی باشد 
+                // و در عین حال هیچ کد فعالسازی تاکنون دریافت نکرده باشد
+                // را باز گردان
+                var lbl = await  dbContext.CdLabels.Include(l=>l.RegisteredLabels)
+                    .FirstOrDefaultAsync(
+                        l =>
+                            l.TypeErth == (int)newCdLabel.TypeErth &&    
+                            l.RegisteredLabels.Count == 0 && 
+                            string.IsNullOrEmpty(l.CustomerName) &&
+                            string.IsNullOrEmpty(l.CustomerUnited)
+                        );
+                
+                if (lbl == null)
+                {
+                    return BadRequest(new TbActionResult<string>
+                    {
+                        Success = false,
+                        Object = "UnKnown",
+                        Desc = "لیبل خالی یافت نشد!"
+                    });
+                }
+                
+                lbl.CustomerName = newCdLabel.CustomerFullName.Trim();
+                lbl.CustomerUnited = newCdLabel.CustomerUnited.Trim();
+
+                dbContext.CdLabels.Update(lbl);
+                await dbContext.SaveChangesAsync();
+
+                return Ok(new TbActionResult<NewCdLabelVM>
+                {
+                    Success = true,
+                    Desc =  $"برچسب {lbl.Label} به نام {lbl.CustomerName} از استان {lbl.CustomerUnited} ثبت شد",
+                });
+            }
+            catch (System.Exception err)
+            {
+                return BadRequest(new TbActionResult<string>
+                {
+                    Success = false,
+                    Object = err.ToString(),
+                    Desc = $"خطا در انجام عملیات. {err.Message}"
+                });
+            }
+        }
     }
 
 }

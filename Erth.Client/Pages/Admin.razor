@@ -1,6 +1,7 @@
 @page "/admin"
 
 @inject HttpClient http
+@inject NavigationManager navigationManager
 
 <AuthorizeView>
     <Authorized>
@@ -16,11 +17,7 @@
             </div>
             <div class="col-md">
                 <button type="button"  class="btn btn-warning btn-block mb-1" 
-                @onclick="@BtnGetStudentNewLabelClicked">درخواست برچسب دانشجویی</button>
-            </div>
-            <div class="col-md">
-                <button type="button" class="btn btn-danger btn-block mb-1" 
-                @onclick="@BtnGetProNewLabelClicked">درخواست برچسب حرفه‌ای</button>
+                @onclick="@BtnGetNewLabelClicked">درخواست برچسب</button>
             </div>
         </div>
         
@@ -215,15 +212,9 @@
     }
 
     // New Label
-    void BtnGetStudentNewLabelClicked()
-    {
-        CdsData = null;
-        strSelectedType = "درخواست لیبل برای نسخه دانشجویی";
+    void BtnGetNewLabelClicked()
+    {        
+        navigationManager.NavigateTo($"/newcdlabel");
     }
 
-    void BtnGetProNewLabelClicked()
-    {
-        CdsData = null;
-        strSelectedType = "درخواست لیبل برای نسخه حرفه‌ای";
-    }
 }
