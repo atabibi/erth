@@ -1,0 +1,146 @@
+@page "/usedcdlbels"
+@inject HttpClient http
+
+<AuthorizeView>
+    <Authorized>
+        <h3>لیست برچسب‌هایی که تاکنون به مشتریان اختصاص یافته است</h3>
+        <div class="row">            
+            <button @onclick="@(async () => await BtnProClicked())" class="btn btn-primary mb-2 ml-2">نسخه‌ی حرفه‌ای</button>
+            <button @onclick="@(async () => await BtnStudentClicked())" class="btn btn-success mb-2 ml-2">نسخه‌ی دانشجویی</button>         
+        </div>       
+        
+        <p>
+            @($"تعداد: {allRecordsCount}")
+        </p>
+
+        @if(DedicatedLabls != null)
+        {
+            <table class="table table-responsive">
+                <tr>
+                    <th>ردیف</th>
+                    <th>برچسب</th>
+                    <th>نام</th>
+                    <th>استان</th>
+                    <th>تعداد ثبت</th>
+                </tr>
+                @for(int k=0; k < DedicatedLabls.Count; k++)
+                {
+                    var lbl  = DedicatedLabls[k];
+                    <tr>
+                        <td>@(fromIndex + k + 1)</td>
+                        <td>@lbl.Label</td>
+                        <td>@lbl.FullName</td>
+                        <td>@lbl.United</td>
+                        <td>@lbl.RegisteredCount</td>
+                    </tr>
+                }
+            </table>
+            <div class="row text-center">
+                <div class="col-md-2">
+                    <button class="btn btn-default" disabled="@(fromIndex <= 0)" @onclick="@(async () => await BtnFirstPageClicked())">
+                        <span class="oi oi-media-step-forward"></span>                    
+                    </button>
+                    <button class="btn btn-default" disabled="@(fromIndex <= 0)" @onclick="@(async () => await BtnPrevClicked())">
+                        <span class="oi oi-caret-right"></span>
+                    </button>
+                </div>
+                <div class="col-md-8">
+                    <span> @($"صفحه {fromIndex/count + 1} از {Math.Ceiling(allRecordsCount/(float)count)}")</span>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-default" disabled="@(fromIndex > (allRecordsCount-count))" @onclick="@(async () => await BtnNextClicked())">
+                        <span class="oi oi-caret-left"></span>
+                    </button>
+                    <button class="btn btn-default" disabled="@(fromIndex > (allRecordsCount-count))" @onclick="@(async () => await BtnLastPageClicked())">
+                        <span class="oi oi-media-step-backward"></span>
+                    </button>
+                </div>
+            </div>
+        }
+        else
+        {
+            @if (isLoading)
+            {
+                <ShowLoading/>
+            }
+        }
+    </Authorized>
+</AuthorizeView>
+
+@code 
+{
+    bool isLoading = false;
+    private CdTypeErth typeErth = CdTypeErth.Pro;
+    private int allRecordsCount;
+    private int fromIndex=0;
+    private int count=10;
+    private List<DedicatedLablsVM> DedicatedLabls = null;
+
+    async Task GetDedicatedLabels()
+    {
+        isLoading = true;
+
+        //ابتدا تعداد رکوردها را بیاب
+        var resultsCount = await http.GetFromJsonAsync<TbActionResult<int>>(
+                                $"api/RegisterCd/GetDedicatedLabels?cdTypeErth={typeErth}&from={0}&count={-1}&countOnly=true"
+                                );
+
+        allRecordsCount = resultsCount.Object;
+
+        // حالا خود داده ها
+        var result = await http.GetFromJsonAsync<TbActionResult<List<DedicatedLablsVM>>>(
+                                $"api/RegisterCd/GetDedicatedLabels?cdTypeErth={typeErth}&from={fromIndex}&count={count}&countOnly=false"
+                                );
+
+        if (result.Success)
+        {
+            DedicatedLabls = result.Object;
+        }
+
+        isLoading = false;
+    }
+
+    async Task BtnStudentClicked()
+    {
+        typeErth = CdTypeErth.Student;
+        await GetDedicatedLabels();
+    }
+
+    async Task BtnProClicked()
+    {
+        typeErth = CdTypeErth.Pro;
+        await GetDedicatedLabels();
+    }
+
+    async Task BtnFirstPageClicked()
+    {
+        fromIndex = 0;
+        await GetDedicatedLabels();
+    }
+
+    async Task BtnPrevClicked()
+    {
+        if (fromIndex == 0)
+            return;
+        
+        fromIndex -= count;
+
+        if (fromIndex < 0)
+            fromIndex = 0;
+
+        await GetDedicatedLabels();
+    }
+    async Task BtnNextClicked()
+    {
+        if (fromIndex > (allRecordsCount-count))
+                    return;
+
+        fromIndex += count;
+        await GetDedicatedLabels();
+    }
+    async Task BtnLastPageClicked()
+    {
+        fromIndex = allRecordsCount-count;
+        await GetDedicatedLabels();
+    }
+}

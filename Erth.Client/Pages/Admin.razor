@@ -19,6 +19,10 @@
                 <button type="button"  class="btn btn-warning btn-block mb-1" 
                 @onclick="@BtnGetNewLabelClicked">درخواست برچسب</button>
             </div>
+            <div class="col-md">
+                <button type="button"  class="btn btn-primary btn-block mb-1" 
+                @onclick="@BtnLabelsListClicked">برچسب‌های ثبت شده</button>
+            </div>
         </div>
         
         <div class="row">
@@ -217,4 +221,9 @@
         navigationManager.NavigateTo($"/newcdlabel");
     }
 
+    // لیست برچسب‌هایی که قبلا اختصاص یافته است
+    void BtnLabelsListClicked()
+    {
+        navigationManager.NavigateTo("/usedcdlbels");
+    }
 }

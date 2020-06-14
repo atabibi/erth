@@ -235,6 +235,60 @@ namespace Erth.Server.Controllers
                 });
             }
         }
+    
+        [HttpGet("[action]")]
+        [Authorize(Roles="admin")]
+        public async Task<IActionResult> GetDedicatedLabels(CdTypeErth cdTypeErth,int from=0, int count=10, bool countOnly= false)
+        {
+            try
+            {
+                var labels = dbContext.CdLabels.Include(l => l.RegisteredLabels)
+                            .Where( l => 
+                                    l.TypeErth == (int)cdTypeErth &&
+                                    (
+                                        string.IsNullOrEmpty(l.CustomerName) == false ||
+                                        string.IsNullOrEmpty(l.CustomerUnited) == false ||
+                                        l.RegisteredLabels.Count > 0
+                                    )
+                                )
+                                .OrderBy(l => l.Label);
+
+                if (countOnly)        
+                {
+                    var n = await labels.CountAsync();
+                    return Ok( new TbActionResult<int> {
+                        Success = true,
+                        Object = n,
+                        Desc = $"تعداد کل سی‌دی‌های اختصاص یافته: {n}"
+                    });
+                }
+
+                var result = await labels.Skip(from).Take(count).Select (
+                        l => new DedicatedLablsVM {
+                            FullName = l.CustomerName,
+                            Id = l.Id,
+                            Label = l.Label,
+                            RegisteredCount = l.RegisteredLabels.Count,
+                            United = l.CustomerUnited
+                        }
+                    ).ToListAsync();
+                
+                return Ok(new TbActionResult<List<DedicatedLablsVM>> {
+                        Success = true,
+                        Object = result,
+                        Desc = "با موفقیت بازیابی شد"
+                    });
+            }
+            catch (System.Exception err)
+            {
+                return BadRequest(new TbActionResult<DedicatedLablsVM>
+                {
+                    Success = false,
+                    Object = null,
+                    Desc = $"خطا در انجام عملیات.. {err.Message}"
+                });
+            }
+        }
     }
 
 }
