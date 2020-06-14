@@ -15,89 +15,95 @@
                 @onclick="@(async () => await BtnsClicked(RegisteredCdType.ProRegistered))">کدهای ثبت شده حرفه‌ای</button>
             </div>
             <div class="col-md">
-                <button type="button" name="btnStudentRawCDs" id="btnStudentRawCDs" class="btn btn-warning btn-block mb-1" 
-                @onclick="@(async () => await BtnsClicked(RegisteredCdType.StudentUnRegistered))">برچسب‌های خام دانشجویی</button>
+                <button type="button"  class="btn btn-warning btn-block mb-1" 
+                @onclick="@BtnGetStudentNewLabelClicked">درخواست برچسب دانشجویی</button>
             </div>
             <div class="col-md">
-                <button type="button" name="btnProRawCDs" id="btnProRawCDs" class="btn btn-danger btn-block mb-1" 
-                @onclick="@(async () => await BtnsClicked(RegisteredCdType.ProUnRegistered))">برچسب‌های خام حرفه‌ای</button>
+                <button type="button" class="btn btn-danger btn-block mb-1" 
+                @onclick="@BtnGetProNewLabelClicked">درخواست برچسب حرفه‌ای</button>
             </div>
         </div>
         
         <div class="row">
             <strong>@strSelectedType</strong>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ردیف</th>
-                        <th>برچسب سی‌دی</th>
-                        <th>نام</th>
-                        <th> 
-                            <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.United))">
-                                <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> استان
-                            </button>
-                        </th>
-                        <th>شهر</th>
-                        <th>شعبه</th>
-                        <th>
-                            <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.Date))">
-                                <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> تاریخ
-                            </button>
-                        </th>                        
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (CdsData != null)
-                    {
-                        @for (int i=0; i < CdsData.Count; i++)
-                        {
-                            var cd = CdsData[i];
-                            <tr>
-                                <td>@(i+indexFrom+1)</td>
-                                <td>@cd.CdLabel</td>
-                                <td>@cd.FullName</td>
-                                <td>@cd.United</td>
-                                <td>@cd.City</td>
-                                <td>@cd.Shobeh</td>
-                                <td>@cd.DateRegistred</td>
-                            </tr>
-                        } 
-                    }
-                    else
-                    {
-                        @if (isLoading)
-                        {
-                            <div style="display: block; margin-left: auto; margin-right: auto;margin-top:100px;">
-                                <img src="images/wait.gif" alt="در حال بارگیزی..." />
-                                <p>در حال بارگیری...</p>
-                            </div>
-                        }
-                    }
-                </tbody>
-            </table>
+
+            @if (CdsData != null)
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ردیف</th>
+                            <th>برچسب سی‌دی</th>
+                            <th>نام</th>
+                            <th> 
+                                <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.United))">
+                                    <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> استان
+                                </button>
+                            </th>
+                            <th>شهر</th>
+                            <th>شعبه</th>
+                            <th>
+                                <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.Date))">
+                                    <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> تاریخ
+                                </button>
+                            </th>                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                            @for (int i=0; i < CdsData.Count; i++)
+                            {
+                                var cd = CdsData[i];
+                                <tr>
+                                    <td>@(i+indexFrom+1)</td>
+                                    <td>@cd.CdLabel</td>
+                                    <td>@cd.FullName</td>
+                                    <td>@cd.United</td>
+                                    <td>@cd.City</td>
+                                    <td>@cd.Shobeh</td>
+                                    <td>@cd.DateRegistred</td>
+                                </tr>
+                            }                         
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                @if (isLoading)
+                {
+                    <div style="display: block; margin-left: auto; margin-right: auto;margin-top:100px;">
+                        <img src="images/wait.gif" alt="در حال بارگیزی..." />
+                        <p>در حال بارگیری...</p>
+                    </div>
+                }
+            
+            }
+            
         </div>
 
-        <div class="row text-center">
-            <div class="col-md-2">
-                <button class="btn btn-default" disabled="@(indexFrom <= 0)" @onclick="@(async () => await BtnFirstPageClicked())">
-                    <span class="oi oi-media-step-forward"></span>                    
-                </button>
-                <button class="btn btn-default" disabled="@(indexFrom <= 0)" @onclick="@(async () => await BtnPrevClicked())">
-                    <span class="oi oi-caret-right"></span>
-                </button>
+        @if (CdsData != null)
+        {
+            <div class="row text-center">
+                <div class="col-md-2">
+                    <button class="btn btn-default" disabled="@(indexFrom <= 0)" @onclick="@(async () => await BtnFirstPageClicked())">
+                        <span class="oi oi-media-step-forward"></span>                    
+                    </button>
+                    <button class="btn btn-default" disabled="@(indexFrom <= 0)" @onclick="@(async () => await BtnPrevClicked())">
+                        <span class="oi oi-caret-right"></span>
+                    </button>
+                </div>
+                <div class="col-md-8">
+                    <span> @($"صفحه {indexFrom/Count + 1} از {Math.Ceiling(AllRecordsCount/(float)Count)}")</span>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-default" disabled="@(indexFrom > (AllRecordsCount-Count))" @onclick="@(async () => await BtnNextClicked())">
+                        <span class="oi oi-caret-left"></span>
+                    </button>
+                    <button class="btn btn-default" disabled="@(indexFrom > (AllRecordsCount-Count))" @onclick="@(async () => await BtnLastPageClicked())">
+                        <span class="oi oi-media-step-backward"></span>
+                    </button>
+                </div>
             </div>
-            <div class="col-md-8">
-                <span> @($"صفحه {indexFrom/Count + 1} از {Math.Ceiling(AllRecordsCount/(float)Count)}")</span>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-default" disabled="@(indexFrom > (AllRecordsCount-Count))" @onclick="@(async () => await BtnNextClicked())">
-                    <span class="oi oi-caret-left"></span>
-                </button>
-                <button class="btn btn-default" disabled="@(indexFrom > (AllRecordsCount-Count))" @onclick="@(async () => await BtnLastPageClicked())">
-                    <span class="oi oi-media-step-backward"></span>
-                </button>
-            </div>
-        </div>
+        }
     </Authorized>
 </AuthorizeView>
 
@@ -206,5 +212,18 @@
     {
         indexFrom = AllRecordsCount-Count;
         await GetRegisteredCds();
+    }
+
+    // New Label
+    void BtnGetStudentNewLabelClicked()
+    {
+        CdsData = null;
+        strSelectedType = "درخواست لیبل برای نسخه دانشجویی";
+    }
+
+    void BtnGetProNewLabelClicked()
+    {
+        CdsData = null;
+        strSelectedType = "درخواست لیبل برای نسخه حرفه‌ای";
     }
 }
