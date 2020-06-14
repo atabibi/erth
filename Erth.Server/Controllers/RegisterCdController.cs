@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Erth.Server.Data;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 namespace Erth.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [Authorize]
     [AllowAnonymous]
     public class RegisterCdController : ControllerBase
@@ -24,6 +25,76 @@ namespace Erth.Server.Controllers
         {
             this.dbContext = dbContext;
             this.configuration = configuration;
+        }
+
+        [HttpGet("[action]")]
+        [Authorize(Roles="admin")]
+        public async Task<IActionResult> RegisteredCds(RegisteredCdType cdType, 
+                                                        OrderBy orderBy,
+                                                        int from, 
+                                                        int count=10,
+                                                        bool onlyCount=false)
+        {            
+            try
+            {
+                int cdTypeId = (int)cdType % 2;
+                var cds = dbContext.RegisteredLabels.Include(r => r.CdLabel)
+                    .Where(r => r.CdLabel.TypeErth == cdTypeId);
+
+                if (onlyCount) // فقط تعداد کل رکوردها را بازگردان
+                {
+                    int allRecordsCount = await cds.CountAsync();
+                    return Ok(new TbActionResult<int> 
+                        {
+                            Success = true,
+                            Desc = $"تعداد رکوردها: {allRecordsCount}",
+                            Object = allRecordsCount
+                        });
+                }
+                
+                switch (orderBy)
+                {
+                    case OrderBy.Date:
+                        cds = cds.OrderBy(r => r.DateOf);
+                        break;
+                    case OrderBy.DateInverse:
+                        cds = cds.OrderByDescending(r => r.DateOf);                        
+                        break;
+                    case OrderBy.United:
+                        cds = cds.OrderBy(r => r.United);
+                        break;
+                    case OrderBy.UnitedInverse: 
+                        cds = cds.OrderByDescending(r => r.United);               
+                        break;
+                }
+
+                cds = count == -1 ? cds.Skip(from) : cds.Skip(from).Take(count);
+                
+                var results = await cds.Select( s => new RegisterCdVMwithDate {
+                            CdLabel = s.CdLabel.Label,
+                            City = s.City,
+                            DateRegistred = s.DateOf.ToShamsi(),
+                            FullName = s.FullName,
+                            Shobeh = cdType == (int)CdTypeErth.Pro ? s.Shobeh : "-",
+                            Sn = s.UserPcSN,
+                            United = s.United
+                        }).ToListAsync();
+
+                return Ok(new TbActionResult<List<RegisterCdVMwithDate>> {
+                    Success = true,
+                    Desc = "لیست سی‌دی‌های ثبت شده با موفقیت بازیابی شد",
+                    Object = results
+                });
+            }
+            catch (System.Exception err)
+            {
+                return BadRequest(new TbActionResult<RegisterCdVM>
+                {
+                    Success = false,
+                    Object = null,
+                    Desc = $"خطا در انجام عملیات.. {err.Message}"
+                });
+            }
         }
 
         [HttpPost]

@@ -1,34 +1,118 @@
 @page "/admin"
 
+@inject HttpClient http
+
 <AuthorizeView>
     <Authorized>
         <h3 class="center">بخش مدیریت</h3>
         <div class="row">
-            <div class="col-md-3">
-                <button type="button" name="btnStudentRegisteredCDs" id="btnStudentRegisteredCDs" class="btn btn-primary btn-block mb-1" @onclick="@(()=> {BtnsClicked(RegisteredCdType.StudentRegistered);})">کدهای ثبت شده دانشجویی</button>
+            <div class="col-md">
+                <button type="button" name="btnStudentRegisteredCDs" id="btnStudentRegisteredCDs" class="btn btn-primary btn-block mb-1" 
+                @onclick="@(async () =>  await BtnsClicked(RegisteredCdType.StudentRegistered))">کدهای ثبت شده دانشجویی</button>
             </div>
-            <div class="col-md-3">
-                <button type="button" name="btnProRegisteredCDs" id="btnProRegisteredCDs" class="btn btn-success btn-block mb-1" @onclick="@(()=> {BtnsClicked(RegisteredCdType.ProRegistered);})">کدهای ثبت شده حرفه‌ای</button>
+            <div class="col-md">
+                <button type="button" name="btnProRegisteredCDs" id="btnProRegisteredCDs" class="btn btn-success btn-block mb-1" 
+                @onclick="@(async () => await BtnsClicked(RegisteredCdType.ProRegistered))">کدهای ثبت شده حرفه‌ای</button>
             </div>
-            <div class="col-md-3">
-                <button type="button" name="btnStudentRawCDs" id="btnStudentRawCDs" class="btn btn-warning btn-block mb-1" @onclick="@(()=> {BtnsClicked(RegisteredCdType.StudentUnRegistered);})">برچسب‌های خام دانشجویی</button>
+            <div class="col-md">
+                <button type="button" name="btnStudentRawCDs" id="btnStudentRawCDs" class="btn btn-warning btn-block mb-1" 
+                @onclick="@(async () => await BtnsClicked(RegisteredCdType.StudentUnRegistered))">برچسب‌های خام دانشجویی</button>
             </div>
-            <div class="col-md-3">
-                <button type="button" name="btnProRawCDs" id="btnProRawCDs" class="btn btn-danger btn-block mb-1" @onclick="@(()=> {BtnsClicked(RegisteredCdType.ProUnRegistered);})">برچسب‌های خام حرفه‌ای</button>
+            <div class="col-md">
+                <button type="button" name="btnProRawCDs" id="btnProRawCDs" class="btn btn-danger btn-block mb-1" 
+                @onclick="@(async () => await BtnsClicked(RegisteredCdType.ProUnRegistered))">برچسب‌های خام حرفه‌ای</button>
             </div>
         </div>
         
         <div class="row">
             <strong>@strSelectedType</strong>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>برچسب سی‌دی</th>
+                        <th>نام</th>
+                        <th> 
+                            <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.United))">
+                                <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> استان
+                            </button>
+                        </th>
+                        <th>شهر</th>
+                        <th>شعبه</th>
+                        <th>
+                            <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.Date))">
+                                <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> تاریخ
+                            </button>
+                        </th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (CdsData != null)
+                    {
+                        @for (int i=0; i < CdsData.Count; i++)
+                        {
+                            var cd = CdsData[i];
+                            <tr>
+                                <td>@(i+indexFrom+1)</td>
+                                <td>@cd.CdLabel</td>
+                                <td>@cd.FullName</td>
+                                <td>@cd.United</td>
+                                <td>@cd.City</td>
+                                <td>@cd.Shobeh</td>
+                                <td>@cd.DateRegistred</td>
+                            </tr>
+                        } 
+                    }
+                    else
+                    {
+                        @if (isLoading)
+                        {
+                            <div style="display: block; margin-left: auto; margin-right: auto;margin-top:100px;">
+                                <img src="images/wait.gif" alt="در حال بارگیزی..." />
+                                <p>در حال بارگیری...</p>
+                            </div>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-md-2">
+                <button class="btn btn-default" disabled="@(indexFrom <= 0)" @onclick="@(async () => await BtnFirstPageClicked())">
+                    <span class="oi oi-media-step-forward"></span>                    
+                </button>
+                <button class="btn btn-default" disabled="@(indexFrom <= 0)" @onclick="@(async () => await BtnPrevClicked())">
+                    <span class="oi oi-caret-right"></span>
+                </button>
+            </div>
+            <div class="col-md-8">
+                <span> @($"صفحه {indexFrom/Count + 1} از {Math.Ceiling(AllRecordsCount/(float)Count)}")</span>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-default" disabled="@(indexFrom > (AllRecordsCount-Count))" @onclick="@(async () => await BtnNextClicked())">
+                    <span class="oi oi-caret-left"></span>
+                </button>
+                <button class="btn btn-default" disabled="@(indexFrom > (AllRecordsCount-Count))" @onclick="@(async () => await BtnLastPageClicked())">
+                    <span class="oi oi-media-step-backward"></span>
+                </button>
+            </div>
         </div>
     </Authorized>
 </AuthorizeView>
 
 
 @code {
-
     private string strSelectedType="";
-    public void BtnsClicked(RegisteredCdType cdType)
+    private bool isLoading = false;
+    public List<RegisterCdVMwithDate> CdsData {get;set;} = null;
+    public OrderBy OderedBy {get;set;}
+    public bool OrderInverse {get;set;} = false;
+    public RegisteredCdType RegisteredCdType {get;set;}
+    public int indexFrom { get; set; }
+    public int Count { get; set; } = 10;
+    public int AllRecordsCount { get; set; }
+    async Task BtnsClicked(RegisteredCdType cdType)
     {
         switch (cdType)
         {
@@ -48,5 +132,79 @@
                 strSelectedType = "";
                 break;
         }
+
+        indexFrom = 0;
+        RegisteredCdType = cdType;
+        await GetRegisteredCds();
+    }
+
+    async Task BtnOrderRegisteredCds(OrderBy orderBy)
+    {
+        if ((int)OderedBy % 2 == (int)orderBy)
+        {
+            OrderInverse = !OrderInverse;
+        }
+
+        OderedBy = (OrderBy)(OrderInverse ? (int)orderBy+2 : (int)orderBy);
+
+        await GetRegisteredCds();
+    }
+    async Task GetRegisteredCds()
+    {
+
+        isLoading = true;
+
+        // اول تعداد کل رکوردها را بیاب
+        var resultsCount = await http.GetFromJsonAsync<TbActionResult<int>>(
+                                $"api/RegisterCd/RegisteredCds?cdType={RegisteredCdType}&orderBy={OderedBy}&from={0}&count={-1}&onlyCount=true"
+                                );
+
+        AllRecordsCount = resultsCount.Object;
+        strSelectedType = resultsCount.Desc;
+
+        
+        var results = await http.GetFromJsonAsync<TbActionResult<List<RegisterCdVMwithDate>>>(
+                                $"api/RegisterCd/RegisteredCds?cdType={RegisteredCdType}&orderBy={OderedBy}&from={indexFrom}&count={Count}"
+                                );
+        
+        if (results.Success)
+        {
+            CdsData = results.Object;
+        }
+        isLoading = false;
+    }
+
+    async Task BtnPrevClicked()
+    {
+        if (indexFrom == 0)
+            return;
+        
+        indexFrom -= Count;
+
+        if (indexFrom < 0)
+            indexFrom = 0;
+
+        await GetRegisteredCds();
+    }
+
+    async Task BtnNextClicked()
+    {
+        if (indexFrom > (AllRecordsCount-Count))
+            return;
+
+        indexFrom += Count;
+        await GetRegisteredCds();
+    }
+
+    async Task BtnFirstPageClicked()
+    {
+        indexFrom = 0;
+        await GetRegisteredCds();
+    }
+
+    async Task BtnLastPageClicked()
+    {
+        indexFrom = AllRecordsCount-Count;
+        await GetRegisteredCds();
     }
 }

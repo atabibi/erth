@@ -146,7 +146,7 @@
       //var httpClient = ClientFactory.CreateClient("Erth.ServerAPI.NoAuthenticationClient");
 
 
-      var result = await httpClient.PostAsJsonAsync<RegisterCdVM>("RegisterCd", registerCd);
+      var result = await httpClient.PostAsJsonAsync<RegisterCdVM>("api/RegisterCd", registerCd);
       var resultJson = result.Content.ReadFromJsonAsync<TbActionResult<RegisterCdVM>>();
       Console.WriteLine(resultJson.Result.Desc);
       actionResult = resultJson.Result.Desc;

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Erth.Shared.Models;
 
@@ -36,7 +37,7 @@ namespace Erth.Server.Models
                         sn = sn - BaseCodeForStudentEdition;
                         break;
                 }
-                
+
             }
             catch
             {
@@ -45,5 +46,12 @@ namespace Erth.Server.Models
 
             return sn.ToString();
         }
+
+        public static string ToShamsi(this System.DateTime date)
+        {
+            var pc = new PersianCalendar();
+            return $"{pc.GetYear(date)}/{pc.GetMonth(date)}/{pc.GetDayOfMonth(date)}";
+        }
     }
+
 }

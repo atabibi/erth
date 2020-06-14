@@ -8,9 +8,17 @@ namespace Erth.Shared.Models
 
     public enum RegisteredCdType
     {
-        ProUnRegistered,
         ProRegistered,
-        StudentUnRegistered,
-        StudentRegistered
+        StudentRegistered,
+        ProUnRegistered,
+        StudentUnRegistered
+    }
+
+    public enum OrderBy 
+    {
+        Date,
+        United,
+        DateInverse,
+        UnitedInverse
     }
 }
