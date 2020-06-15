@@ -1,0 +1,81 @@
+<div class="row text-center">
+    <div class="col-md-2">
+        <button class="btn btn-default" disabled="@(FromIndex <= 0)" @onclick="@(async () => await BtnFirstClicked())">
+            <span class="oi oi-media-step-forward"></span>                    
+        </button>
+        <button class="btn btn-default" disabled="@(FromIndex <= 0)" @onclick="@(async () => await BtnPrevClicked())">
+            <span class="oi oi-caret-right"></span>
+        </button>
+    </div>
+    <div class="col-md-8">
+        <span> @($"صفحه {FromIndex/Count + 1} از {Math.Ceiling(AllRecordsCount/(float)Count)}")</span>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-default" disabled="@(FromIndex > (AllRecordsCount-Count))" @onclick="@(async () => await BtnNextClicked())">
+            <span class="oi oi-caret-left"></span>
+        </button>
+        <button class="btn btn-default" disabled="@(FromIndex > (AllRecordsCount-Count))" @onclick="@(async () => await BtnLastClicked())">
+            <span class="oi oi-media-step-backward"></span>
+        </button>
+    </div>
+</div>
+
+@code 
+{
+    [Parameter]
+    public int FromIndex { get; set; }
+    [Parameter]
+    public int AllRecordsCount { get; set; }
+    [Parameter]
+    public int Count { get; set; }
+
+    [Parameter]
+    public EventCallback<RecordNavigationEventArgs> OnNavigate { get; set; }
+    
+
+    async Task InvokeNavigate()
+    {
+        RecordNavigationEventArgs args = new RecordNavigationEventArgs {
+            FromIndex = FromIndex,
+            Count = Count,
+            AllRecordsCount = AllRecordsCount
+        };
+
+        await OnNavigate.InvokeAsync(args);
+    }
+
+    async Task BtnFirstClicked()
+    {
+        FromIndex = 0;
+
+        await InvokeNavigate();
+    }    
+    
+    async Task BtnPrevClicked ()
+    {
+        if (FromIndex == 0)
+            return;
+        
+        FromIndex -= Count;
+
+        if (FromIndex < 0)
+            FromIndex = 0;
+        
+        await InvokeNavigate();
+    }        
+    async Task BtnNextClicked ()
+    {
+        if (FromIndex > (AllRecordsCount-Count))
+            return;
+
+        FromIndex += Count;
+
+        await InvokeNavigate();
+    }        
+    async Task BtnLastClicked ()
+    {
+        FromIndex = AllRecordsCount-Count;
+
+        await InvokeNavigate();
+    }        
+}

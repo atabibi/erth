@@ -35,27 +35,8 @@
                     </tr>
                 }
             </table>
-            <div class="row text-center">
-                <div class="col-md-2">
-                    <button class="btn btn-default" disabled="@(fromIndex <= 0)" @onclick="@(async () => await BtnFirstPageClicked())">
-                        <span class="oi oi-media-step-forward"></span>                    
-                    </button>
-                    <button class="btn btn-default" disabled="@(fromIndex <= 0)" @onclick="@(async () => await BtnPrevClicked())">
-                        <span class="oi oi-caret-right"></span>
-                    </button>
-                </div>
-                <div class="col-md-8">
-                    <span> @($"صفحه {fromIndex/count + 1} از {Math.Ceiling(allRecordsCount/(float)count)}")</span>
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-default" disabled="@(fromIndex > (allRecordsCount-count))" @onclick="@(async () => await BtnNextClicked())">
-                        <span class="oi oi-caret-left"></span>
-                    </button>
-                    <button class="btn btn-default" disabled="@(fromIndex > (allRecordsCount-count))" @onclick="@(async () => await BtnLastPageClicked())">
-                        <span class="oi oi-media-step-backward"></span>
-                    </button>
-                </div>
-            </div>
+            
+            <RecordNavigation OnNavigate="@OnNavigateRecords" FromIndex="@fromIndex" Count="@count" AllRecordsCount="@allRecordsCount"/>
         }
         else
         {
@@ -100,6 +81,14 @@
         isLoading = false;
     }
 
+    async Task OnNavigateRecords(RecordNavigationEventArgs recordNavigation)
+    {
+        fromIndex = recordNavigation.FromIndex;
+        count = recordNavigation.Count;
+        allRecordsCount = recordNavigation.AllRecordsCount;
+
+        await GetDedicatedLabels();
+    }
     async Task BtnStudentClicked()
     {
         typeErth = CdTypeErth.Student;
@@ -112,35 +101,4 @@
         await GetDedicatedLabels();
     }
 
-    async Task BtnFirstPageClicked()
-    {
-        fromIndex = 0;
-        await GetDedicatedLabels();
-    }
-
-    async Task BtnPrevClicked()
-    {
-        if (fromIndex == 0)
-            return;
-        
-        fromIndex -= count;
-
-        if (fromIndex < 0)
-            fromIndex = 0;
-
-        await GetDedicatedLabels();
-    }
-    async Task BtnNextClicked()
-    {
-        if (fromIndex > (allRecordsCount-count))
-                    return;
-
-        fromIndex += count;
-        await GetDedicatedLabels();
-    }
-    async Task BtnLastPageClicked()
-    {
-        fromIndex = allRecordsCount-count;
-        await GetDedicatedLabels();
-    }
 }

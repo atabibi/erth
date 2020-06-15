@@ -83,27 +83,7 @@
 
         @if (CdsData != null)
         {
-            <div class="row text-center">
-                <div class="col-md-2">
-                    <button class="btn btn-default" disabled="@(indexFrom <= 0)" @onclick="@(async () => await BtnFirstPageClicked())">
-                        <span class="oi oi-media-step-forward"></span>                    
-                    </button>
-                    <button class="btn btn-default" disabled="@(indexFrom <= 0)" @onclick="@(async () => await BtnPrevClicked())">
-                        <span class="oi oi-caret-right"></span>
-                    </button>
-                </div>
-                <div class="col-md-8">
-                    <span> @($"صفحه {indexFrom/Count + 1} از {Math.Ceiling(AllRecordsCount/(float)Count)}")</span>
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-default" disabled="@(indexFrom > (AllRecordsCount-Count))" @onclick="@(async () => await BtnNextClicked())">
-                        <span class="oi oi-caret-left"></span>
-                    </button>
-                    <button class="btn btn-default" disabled="@(indexFrom > (AllRecordsCount-Count))" @onclick="@(async () => await BtnLastPageClicked())">
-                        <span class="oi oi-media-step-backward"></span>
-                    </button>
-                </div>
-            </div>
+            <RecordNavigation OnNavigate="@OnNavigateRecords" FromIndex="@indexFrom" Count="@Count" AllRecordsCount="@AllRecordsCount"/>
         }
     </Authorized>
 </AuthorizeView>
@@ -120,26 +100,7 @@
     public int Count { get; set; } = 10;
     public int AllRecordsCount { get; set; }
     async Task BtnsClicked(RegisteredCdType cdType)
-    {
-        switch (cdType)
-        {
-            case RegisteredCdType.ProRegistered:
-                strSelectedType = "کدهای ثبت شده نسخه حرفه ای";
-                break;
-            case RegisteredCdType.ProUnRegistered:
-                strSelectedType = "کدهای خام نسخه حرفه ای";
-                break;
-            case RegisteredCdType.StudentRegistered:
-                strSelectedType = "ثبت شده نسخه دانشجویی";
-                break;
-            case RegisteredCdType.StudentUnRegistered:
-                strSelectedType = "کدهای خام نسخه دانشجویی";
-                break;            
-            default:
-                strSelectedType = "";
-                break;
-        }
-
+    {        
         indexFrom = 0;
         RegisteredCdType = cdType;
         await GetRegisteredCds();
@@ -181,37 +142,13 @@
         isLoading = false;
     }
 
-    async Task BtnPrevClicked()
+   
+    async Task OnNavigateRecords(RecordNavigationEventArgs recordNavigation)
     {
-        if (indexFrom == 0)
-            return;
-        
-        indexFrom -= Count;
+        indexFrom = recordNavigation.FromIndex;
+        Count = recordNavigation.Count;
+        AllRecordsCount = recordNavigation.AllRecordsCount;
 
-        if (indexFrom < 0)
-            indexFrom = 0;
-
-        await GetRegisteredCds();
-    }
-
-    async Task BtnNextClicked()
-    {
-        if (indexFrom > (AllRecordsCount-Count))
-            return;
-
-        indexFrom += Count;
-        await GetRegisteredCds();
-    }
-
-    async Task BtnFirstPageClicked()
-    {
-        indexFrom = 0;
-        await GetRegisteredCds();
-    }
-
-    async Task BtnLastPageClicked()
-    {
-        indexFrom = AllRecordsCount-Count;
         await GetRegisteredCds();
     }
 
