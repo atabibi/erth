@@ -1,7 +1,10 @@
 @page "/newcdlabel"
 @inject HttpClient http
 
-<h3>انتساب یک برچسب سی‌دی به مشتری</h3>
+<h3 class="center">
+    <a href="/admin"> <span class="oi oi-arrow-circle-right"></span> </a>
+    انتساب یک برچسب سی‌دی به مشتری
+</h3>
 
 <EditForm Model="@newCdLabelVM" OnValidSubmit="onSubmit">
     <DataAnnotationsValidator />
