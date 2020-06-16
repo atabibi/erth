@@ -5,6 +5,7 @@
     src: url('fonts/iransansweb.woff2');
     font-weight: normal;
     font-style: normal;
+    font-size: 0.9em;
 }
 
 @font-face {
@@ -12,6 +13,7 @@
     src: url('fonts/iransansweb_bold.woff2');
     font-weight: bold;
     font-style: normal;
+    font-size: 0.9em;
 }
 
 html, body {
@@ -28,7 +30,7 @@ h3 {
     border-color: cornflowerblue;
     border-style: solid;
     border-radius: 5px;
-    font-size: 1.5em;
+    font-size: 1.1em;
     font-weight: bold
 }
 
@@ -184,6 +186,11 @@ img.scaled:hover {
     transition-duration: 1000ms;
     cursor: pointer;
     z-index: 10;
+}
+
+.table
+{
+    font-size: 80%;
 }
 
 @media (max-width: 767.98px) {
