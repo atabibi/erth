@@ -1,0 +1,83 @@
+@page "/userprofile"
+@inject HttpClient http
+
+
+<h3 class="center">مشخصات کاربر</h3>
+
+@* <AuthorizeView>
+    <Authorized context="Auth"> *@
+        <div class="card">
+            <div class="card-header">
+                مشخصات کاربر
+            </div>
+            @if (userInfo != null)
+            {
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><span class="bold">نام کاربری:</span> @userInfo.UserName</li>
+                    <li class="list-group-item"><span class="bold">سمت: </span> @(userInfo.IsAdmin ? "مدیر" : "کاربر")</li>
+                    <li class="list-group-item">
+                        <button class="btn btn-primary btn-block" @onclick="@(() => showChangePasswordArea = !showChangePasswordArea)">تغییر رمز</button>
+                    </li>
+                    @if (showChangePasswordArea)
+                    {
+                        <li class="list-group-item">
+                            <EditForm Model="@changePasswordVM" OnValidSubmit="onSubmit">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+
+                                <div class="form-group">
+                                    <label>
+                                        رمز فعلی
+                                    </label>
+                                    <InputText type="password" placeholder="رمز کنونی خود را بنویسید" class="form-control" id="password" @bind-Value="changePasswordVM.OldPassword" />
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        رمز جدید
+                                    </label>
+                                    <InputText type="password" placeholder="رمز جدید خود را بنویسید" class="form-control" id="newpassword" @bind-Value="changePasswordVM.NewPassword" />
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        تکرار رمز جدید
+                                    </label>
+                                    <InputText type="password" placeholder="رمز جدید خود را تکرار کنید" class="form-control" id="repeatpassword" @bind-Value="changePasswordVM.RepeatePassword" />
+                                </div>
+                                
+                                <button class="btn btn-success btn-block" type="submit">تایید</button>
+                            </EditForm>
+                        </li>
+                        <li class="list-group-item">
+                            @strMessage
+                        </li>
+                    }
+                    
+                </ul>
+            }
+        </div>
+    @* </Authorized>
+</AuthorizeView> *@
+
+@code
+{
+    UserInfo userInfo = null;
+    bool showChangePasswordArea = false;
+
+    string strMessage = "";
+
+    ChangePasswordVM changePasswordVM = new ChangePasswordVM();
+
+    protected override async Task OnInitializedAsync()
+    {
+        userInfo = await http.GetFromJsonAsync<UserInfo>("api/Authorize/UserInfo");
+    }
+
+    async Task onSubmit()
+    {
+        Console.WriteLine(changePasswordVM.NewPassword);
+        var result = await http.PostAsJsonAsync<ChangePasswordVM>($"api/Authorize/ChangPassword",changePasswordVM);
+        var resultJson = await result.Content.ReadFromJsonAsync<TbActionResult<string>>();   
+
+        strMessage = resultJson.Desc;
+    }
+}

@@ -14,7 +14,8 @@
             "cwd": "${workspaceFolder}/Erth.Server",
             
             // Added to enable debugging: By Tabibi
-            "url": "http://localhost:5000"
+            "url": "http://localhost:5000",
+            "timeout": 45000
         }
     ]
 }

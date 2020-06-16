@@ -1,5 +1,6 @@
 ﻿using Erth.Server.Models;
 using Erth.Shared;
+using Erth.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -60,6 +61,33 @@ namespace Erth.Server.Controllers
             return Ok();
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ChangPassword(ChangePasswordVM changePassword)
+        {            
+            try
+            {
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                var result = await _userManager.ChangePasswordAsync(user, changePassword.OldPassword, changePassword.NewPassword);
+
+                return Ok(new TbActionResult<string> {
+                    Success = result.Succeeded,
+                    Desc = result.Succeeded ? "رمز عبور با موفقیت تغییر یافت" : "خطا در تغییر رمز عبور",
+                    Object = result.Succeeded ? "رمز عبور با موفقیت تغییر یافت" : "خطا در تغییر رمز عبور"
+                });
+            }
+            catch (System.Exception err)
+            {
+                return BadRequest(new TbActionResult<string> {
+                    Success = false,
+                    Desc = $"خطا در هنگام تغییر رمز عبور {err.Message}",
+                    Object = $"خطا در هنگام تغییر رمز عبور {err.Message}"
+                });
+            }
+            
+
+        }
+
         [HttpGet]
         public UserInfo UserInfo()
         {
@@ -74,6 +102,7 @@ namespace Erth.Server.Controllers
             {
                 IsAuthenticated = User.Identity.IsAuthenticated,
                 UserName = User.Identity.Name,
+                IsAdmin = User.IsInRole("admin"),
                 ExposedClaims = User.Claims
                     //Optionally: filter the claims you want to expose to the client
                     //.Where(c => c.Type == "test-claim")
