@@ -1,0 +1,36 @@
+@typeparam TItem
+
+<div class="table-responsive table-striped">
+    <table class="table table table-sm">
+        <thead class="thead-dark">
+            <tr>
+                @Header
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var (item, i) in Items.Select((v, i) => (v, i)))
+            {
+                <tr>
+                    <td>@(FromIndex + i + 1)</td>
+                    @Row(item)
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@code
+{
+    [Parameter]
+    public RenderFragment Header { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem> Row { get; set; }
+    
+    [Parameter]
+    public IReadOnlyList<TItem> Items { get; set; }
+        
+    [Parameter]
+    public int FromIndex { get; set; }
+}

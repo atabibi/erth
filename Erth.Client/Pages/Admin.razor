@@ -30,42 +30,33 @@
 
             @if (CdsData != null)
             {
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ردیف</th>
-                            <th>برچسب سی‌دی</th>
-                            <th>نام</th>
-                            <th> 
-                                <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.United))">
-                                    <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> استان
-                                </button>
-                            </th>
-                            <th>شهر</th>
-                            <th>شعبه</th>
-                            <th>
-                                <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.Date))">
-                                    <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> تاریخ
-                                </button>
-                            </th>                        
-                        </tr>
-                    </thead>
-                    <tbody>
-                            @for (int i=0; i < CdsData.Count; i++)
-                            {
-                                var cd = CdsData[i];
-                                <tr>
-                                    <td>@(i+indexFrom+1)</td>
-                                    <td>@cd.CdLabel</td>
-                                    <td>@cd.FullName</td>
-                                    <td>@cd.United</td>
-                                    <td>@cd.City</td>
-                                    <td>@cd.Shobeh</td>
-                                    <td>@cd.DateRegistred</td>
-                                </tr>
-                            }                         
-                    </tbody>
-                </table>
+                <TbList Items="CdsData" TItem="RegisterCdVMwithDate" FromIndex="indexFrom">
+                    <Header>
+                        <th>ردیف</th>
+                        <th>برچسب سی‌دی</th>
+                        <th>نام</th>
+                        <th> 
+                            <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.United))">
+                                <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> استان
+                            </button>
+                        </th>
+                        <th>شهر</th>
+                        <th>شعبه</th>
+                        <th>
+                            <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.Date))">
+                                <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> تاریخ
+                            </button>
+                        </th>     
+                    </Header>
+                    <Row Context="cd">
+                        <td>@cd.CdLabel</td>
+                        <td>@cd.FullName</td>
+                        <td>@cd.United</td>
+                        <td>@cd.City</td>
+                        <td>@cd.Shobeh</td>
+                        <td>@cd.DateRegistred</td>
+                    </Row>
+                </TbList>                
             }
             else
             {

@@ -3,7 +3,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <h3>لیست برچسب‌هایی که تاکنون به مشتریان اختصاص یافته است</h3>
+        <h3 class="center">لیست برچسب‌هایی که تاکنون به مشتریان اختصاص یافته است</h3>
         <div class="row">            
             <button @onclick="@(async () => await BtnProClicked())" class="btn btn-primary mb-2 ml-2">نسخه‌ی حرفه‌ای</button>
             <button @onclick="@(async () => await BtnStudentClicked())" class="btn btn-success mb-2 ml-2">نسخه‌ی دانشجویی</button>         
@@ -15,26 +15,21 @@
 
         @if(DedicatedLabls != null)
         {
-            <table class="table table-responsive">
-                <tr>
+            <TbList Items="DedicatedLabls" TItem="DedicatedLablsVM" FromIndex="@fromIndex">
+                <Header>
                     <th>ردیف</th>
                     <th>برچسب</th>
                     <th>نام</th>
                     <th>استان</th>
                     <th>تعداد ثبت</th>
-                </tr>
-                @for(int k=0; k < DedicatedLabls.Count; k++)
-                {
-                    var lbl  = DedicatedLabls[k];
-                    <tr>
-                        <td>@(fromIndex + k + 1)</td>
-                        <td>@lbl.Label</td>
-                        <td>@lbl.FullName</td>
-                        <td>@lbl.United</td>
-                        <td>@lbl.RegisteredCount</td>
-                    </tr>
-                }
-            </table>
+                </Header>
+                <Row Context="lbl">
+                    <td>@lbl.Label</td>
+                    <td>@lbl.FullName</td>
+                    <td>@lbl.United</td>
+                    <td>@lbl.RegisteredCount</td>
+                </Row>
+            </TbList>
             
             <RecordNavigation OnNavigate="@OnNavigateRecords" FromIndex="@fromIndex" Count="@count" AllRecordsCount="@allRecordsCount"/>
         }
