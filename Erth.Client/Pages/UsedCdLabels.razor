@@ -3,7 +3,10 @@
 
 <AuthorizeView>
     <Authorized>
-        <h3 class="center">لیست برچسب‌هایی که تاکنون به مشتریان اختصاص یافته است</h3>
+        <h3 class="center">
+            <a href="/admin"> <span class="oi oi-arrow-circle-right"></span> </a>
+            لیست برچسب‌هایی که تاکنون به مشتریان اختصاص یافته است
+        </h3>
         <div class="row">            
             <button @onclick="@(async () => await BtnProClicked())" class="btn btn-primary mb-2 ml-2">نسخه‌ی حرفه‌ای</button>
             <button @onclick="@(async () => await BtnStudentClicked())" class="btn btn-success mb-2 ml-2">نسخه‌ی دانشجویی</button>         

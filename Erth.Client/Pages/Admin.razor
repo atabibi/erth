@@ -8,20 +8,24 @@
         <h3 class="center">بخش مدیریت</h3>
         <div class="row">
             <div class="col-md">
-                <button type="button" name="btnStudentRegisteredCDs" id="btnStudentRegisteredCDs" class="btn btn-primary btn-block mb-1" 
-                @onclick="@(async () =>  await BtnsClicked(RegisteredCdType.StudentRegistered))">کدهای ثبت شده دانشجویی</button>
+                <button type="button" name="btnStudentRegisteredCDs" id="btnStudentRegisteredCDs" class="btn btn-primary btn-block" 
+                @onclick="@(async () =>  await BtnsClicked(RegisteredCdType.StudentRegistered))">کدهای دانشجویی</button>
             </div>
             <div class="col-md">
-                <button type="button" name="btnProRegisteredCDs" id="btnProRegisteredCDs" class="btn btn-success btn-block mb-1" 
-                @onclick="@(async () => await BtnsClicked(RegisteredCdType.ProRegistered))">کدهای ثبت شده حرفه‌ای</button>
+                <button type="button" name="btnProRegisteredCDs" id="btnProRegisteredCDs" class="btn btn-success btn-block" 
+                @onclick="@(async () => await BtnsClicked(RegisteredCdType.ProRegistered))">کدهای حرفه‌ای</button>
             </div>
             <div class="col-md">
-                <button type="button"  class="btn btn-warning btn-block mb-1" 
+                <button type="button"  class="btn btn-warning btn-block" 
                 @onclick="@BtnGetNewLabelClicked">درخواست برچسب</button>
             </div>
             <div class="col-md">
-                <button type="button"  class="btn btn-primary btn-block mb-1" 
+                <button type="button"  class="btn btn-info btn-block" 
                 @onclick="@BtnLabelsListClicked">برچسب‌های ثبت شده</button>
+            </div>
+            <div class="col-md">
+                <button type="button"  class="btn btn-danger btn-block" 
+                @onclick="@BtnAddNewUserClicked">کاربران</button>
             </div>
         </div>
         
@@ -153,5 +157,11 @@
     void BtnLabelsListClicked()
     {
         navigationManager.NavigateTo("/usedcdlbels");
+    }
+
+    // ایجاد کاربر جدید
+    void BtnAddNewUserClicked()
+    {
+        navigationManager.NavigateTo("/manageusers");
     }
 }
