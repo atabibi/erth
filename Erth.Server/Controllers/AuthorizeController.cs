@@ -1,9 +1,11 @@
-﻿using Erth.Server.Models;
+﻿using Erth.Server.Data;
+using Erth.Server.Models;
 using Erth.Shared;
 using Erth.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +19,16 @@ namespace Erth.Server.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _dbContext;
 
-        public AuthorizeController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AuthorizeController(
+                        UserManager<ApplicationUser> userManager,
+                        SignInManager<ApplicationUser> signInManager,
+                        ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _dbContext = dbContext;
         }
 
         [HttpPost]
@@ -64,13 +71,14 @@ namespace Erth.Server.Controllers
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> ChangPassword(ChangePasswordVM changePassword)
-        {            
+        {
             try
             {
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var result = await _userManager.ChangePasswordAsync(user, changePassword.OldPassword, changePassword.NewPassword);
 
-                return Ok(new TbActionResult<string> {
+                return Ok(new TbActionResult<string>
+                {
                     Success = result.Succeeded,
                     Desc = result.Succeeded ? "رمز عبور با موفقیت تغییر یافت" : "خطا در تغییر رمز عبور",
                     Object = result.Succeeded ? "رمز عبور با موفقیت تغییر یافت" : "خطا در تغییر رمز عبور"
@@ -78,15 +86,17 @@ namespace Erth.Server.Controllers
             }
             catch (System.Exception err)
             {
-                return BadRequest(new TbActionResult<string> {
+                return BadRequest(new TbActionResult<string>
+                {
                     Success = false,
                     Desc = $"خطا در هنگام تغییر رمز عبور {err.Message}",
                     Object = $"خطا در هنگام تغییر رمز عبور {err.Message}"
                 });
             }
-            
+
 
         }
+
 
         [HttpGet]
         public UserInfo UserInfo()
@@ -95,6 +105,52 @@ namespace Erth.Server.Controllers
             return BuildUserInfo();
         }
 
+        [Authorize(Roles="admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetUsersAsync()
+        {
+            List<UserInfo> usersInfos = new List<UserInfo>();
+
+            try
+            {
+                var users = _dbContext.Users.Select(s => s);
+                
+                // آی دی نقش مدیر
+                var adminRoleId = await _dbContext.Roles.FirstOrDefaultAsync(r => r.Name == "admin");
+                
+                // آی دی همه‌ی مدیران را استخراج کن
+                var allAdmins = (await _dbContext.UserRoles.ToListAsync()).Where(w=>w.RoleId.ToString()==adminRoleId.Id.ToString()).ToList();
+                       
+                foreach (var u in users)
+                {
+                    usersInfos.Add(
+                        new UserInfo
+                        {
+                            UserName = u.UserName,                            
+                            IsAdmin = allAdmins.SingleOrDefault(admin => admin.UserId == u.Id) != null
+                        }
+                    );
+                }
+
+                return Ok(new TbActionResult<List<UserInfo>>() {
+                    Desc = "مشخصات کاربران با موفقیت استخراج شد",
+                    Success = true,
+                    Object = usersInfos
+                });
+            }
+            catch (System.Exception err)
+            {
+                return BadRequest(new TbActionResult<List<UserInfo>> {
+                    Desc = "خطا در بازیابی مشخصات کاربران" + ":" + err.ToString(),
+                    Success = false,
+                    Object = null
+                });
+            }
+
+
+
+
+        }
 
         private UserInfo BuildUserInfo()
         {
