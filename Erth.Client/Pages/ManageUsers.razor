@@ -15,7 +15,7 @@
         @foreach (var user in usersInfoes)
         {
             <li class="list-group-item">
-                <button class="btn btn-link">
+                <button class="btn btn-link" @onclick="@(async () => await BtnDeleteUser(user.UserName))">
                     <span class="oi oi-trash"></span>
                 </button>
                 @(user.UserName) : @(user.IsAdmin ? "مدیر" : "کاربر")
@@ -24,7 +24,7 @@
       </ul>
   </div>
   <div class="card-footer">
-      <button class="btn btn-primary">کاربر جدید</button>
+      <button class="btn btn-primary" @onclick="@(async () => await BtnAddNewUser())">کاربر جدید</button>
   </div>
 </div>
 
@@ -47,5 +47,17 @@
 
         usersInfoes = result.Object;
 
+    }
+
+    async Task BtnDeleteUser(string strUserName)
+    {
+        await Task.Run(() => {errorMsg = $"حذف {strUserName}؟ امکان حذف کاربر هنوز وجود ندارد.";});
+        
+    }
+
+    async Task BtnDeleteUser()
+    {
+        await Task.Run(() => {errorMsg = $"امکان افزودن کاربر جدید هنوز وجود ندارد";});
+        
     }
 }
