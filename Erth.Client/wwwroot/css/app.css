@@ -186,6 +186,7 @@ img.scaled:hover {
     transition-duration: 1000ms;
     cursor: pointer;
     z-index: 10;
+    position: relative;
 }
 
 .table
