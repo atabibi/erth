@@ -49,10 +49,23 @@
 
     private async Task onSubmit()
     {
-        Console.WriteLine(newCdLabelVM);
-        var result = await http.PutAsJsonAsync<NewCdLabelVM>("/api/RegisterCd",newCdLabelVM);
-        var resultJson = result.Content.ReadFromJsonAsync<TbActionResult<NewCdLabelVM>>();
+        Console.WriteLine(newCdLabelVM.CustomerFullName);
+        try
+        {
+            var result = await http.PostAsJsonAsync<NewCdLabelVM>("/api/RegisterCd/RegisterLabel",newCdLabelVM);
+            if (((int)result.StatusCode)/10 != 20)
+            {
+                var errMsg = await result.Content.ReadFromJsonAsync<TbActionResult<string>>();
+                message = "خطا:" + errMsg.Desc;
+            }
+            var resultJson = await result.Content.ReadFromJsonAsync<TbActionResult<NewCdLabelVM>>();
+            
+            message = resultJson.Desc;
+        }
+        catch (System.Exception err)
+        {
+            message = $"خطا: {err.Message}";
+        }
         
-        message = resultJson.Result.Desc;
     }
 }

@@ -183,9 +183,9 @@ namespace Erth.Server.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPost("[action]")]
         [Authorize(Roles="admin")]
-        public async Task<IActionResult> Put(NewCdLabelVM newCdLabel)
+        public async Task<IActionResult> RegisterLabel(NewCdLabelVM newCdLabel)
         {
             try
             {
