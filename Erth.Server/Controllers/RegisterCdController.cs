@@ -13,9 +13,7 @@ using Microsoft.Extensions.Configuration;
 namespace Erth.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    [Authorize]
-    [AllowAnonymous]
+    [Route("api/[controller]")]    
     public class RegisterCdController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
