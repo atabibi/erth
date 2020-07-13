@@ -1,5 +1,6 @@
 @page "/manageusers"
 @inject HttpClient http
+@inject NavigationManager navigationManager
 
 <h3 class="center">
     <a href="/admin"> <span class="oi oi-arrow-circle-right"></span> </a>
@@ -37,15 +38,27 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await http.GetFromJsonAsync<TbActionResult<List<UserInfo>>>("api/Authorize/GetUsers");
-        
-        if (result.Success == false)
+        try
         {
-            errorMsg = result.Desc;
-            return;
-        }
+            
+            var result = await http.GetFromJsonAsync<TbActionResult<List<UserInfo>>>("api/Authorize/GetUsers");
+                
+            if (result.Success == false)
+            {
+                errorMsg = result.Desc;
+                return;
+            }
 
-        usersInfoes = result.Object;
+            usersInfoes = result.Object; 
+        }
+        catch (System.Exception err)
+        {
+            if (err.ToString().Contains("Unauthorized"))
+            {
+                navigationManager.NavigateTo("login");
+            }
+        }
+        
 
     }
 

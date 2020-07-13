@@ -1,7 +1,9 @@
 @page "/usedcdlbels"
 @inject HttpClient http
+@inject NavigationManager navigationManager
+@inject IdentityAuthenticationStateProvider authStateProvider
 
-<AuthorizeView>
+<AuthorizeView Roles="admin">
     <Authorized>
         <h3 class="center">
             <a href="/admin"> <span class="oi oi-arrow-circle-right"></span> </a>
@@ -57,26 +59,35 @@
 
     async Task GetDedicatedLabels()
     {
-        isLoading = true;
-
-        //ابتدا تعداد رکوردها را بیاب
-        var resultsCount = await http.GetFromJsonAsync<TbActionResult<int>>(
-                                $"api/RegisterCd/GetDedicatedLabels?cdTypeErth={typeErth}&from={0}&count={-1}&countOnly=true"
-                                );
-
-        allRecordsCount = resultsCount.Object;
-
-        // حالا خود داده ها
-        var result = await http.GetFromJsonAsync<TbActionResult<List<DedicatedLablsVM>>>(
-                                $"api/RegisterCd/GetDedicatedLabels?cdTypeErth={typeErth}&from={fromIndex}&count={count}&countOnly=false"
-                                );
-
-        if (result.Success)
+        try
         {
-            DedicatedLabls = result.Object;
+                    //ابتدا تعداد رکوردها را بیاب
+            var resultsCount = await http.GetFromJsonAsync<TbActionResult<int>>(
+                                    $"api/RegisterCd/GetDedicatedLabels?cdTypeErth={typeErth}&from={0}&count={-1}&countOnly=true"
+                                    );
+
+            allRecordsCount = resultsCount.Object;
+
+            // حالا خود داده ها
+            var result = await http.GetFromJsonAsync<TbActionResult<List<DedicatedLablsVM>>>(
+                                    $"api/RegisterCd/GetDedicatedLabels?cdTypeErth={typeErth}&from={fromIndex}&count={count}&countOnly=false"
+                                    );
+
+            if (result.Success)
+            {
+                DedicatedLabls = result.Object;
+            }
+
+            isLoading = false;
+        }
+        catch (System.Exception err)
+        {
+            if (err.ToString().Contains("Unauthorized"))
+            {
+                navigationManager.NavigateTo("login");
+            }
         }
 
-        isLoading = false;
     }
 
     async Task OnNavigateRecords(RecordNavigationEventArgs recordNavigation)

@@ -114,27 +114,38 @@
     }
     async Task GetRegisteredCds()
     {
-
-        isLoading = true;
-
-        // اول تعداد کل رکوردها را بیاب
-        var resultsCount = await http.GetFromJsonAsync<TbActionResult<int>>(
-                                $"api/RegisterCd/RegisteredCds?cdType={RegisteredCdType}&orderBy={OderedBy}&from={0}&count={-1}&onlyCount=true"
-                                );
-
-        AllRecordsCount = resultsCount.Object;
-        strSelectedType = resultsCount.Desc;
-
-        
-        var results = await http.GetFromJsonAsync<TbActionResult<List<RegisterCdVMwithDate>>>(
-                                $"api/RegisterCd/RegisteredCds?cdType={RegisteredCdType}&orderBy={OderedBy}&from={indexFrom}&count={Count}"
-                                );
-        
-        if (results.Success)
+        try
         {
-            CdsData = results.Object;
+            
+            isLoading = true;
+
+            // اول تعداد کل رکوردها را بیاب
+            var resultsCount = await http.GetFromJsonAsync<TbActionResult<int>>(
+                                    $"api/RegisterCd/RegisteredCds?cdType={RegisteredCdType}&orderBy={OderedBy}&from={0}&count={-1}&onlyCount=true"
+                                    );
+
+            AllRecordsCount = resultsCount.Object;
+            strSelectedType = resultsCount.Desc;
+
+            
+            var results = await http.GetFromJsonAsync<TbActionResult<List<RegisterCdVMwithDate>>>(
+                                    $"api/RegisterCd/RegisteredCds?cdType={RegisteredCdType}&orderBy={OderedBy}&from={indexFrom}&count={Count}"
+                                    );
+            
+            if (results.Success)
+            {
+                CdsData = results.Object;
+            }
+            isLoading = false;
+                
         }
-        isLoading = false;
+        catch (System.Exception err)
+        {
+            if (err.ToString().Contains("Unauthorized"))
+            {
+                navigationManager.NavigateTo("login");
+            }
+        }
     }
 
    

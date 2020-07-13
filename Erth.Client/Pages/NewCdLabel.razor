@@ -1,5 +1,6 @@
 @page "/newcdlabel"
 @inject HttpClient http
+@inject NavigationManager navigationManager
 
 <h3 class="center">
     <a href="/admin"> <span class="oi oi-arrow-circle-right"></span> </a>
@@ -53,7 +54,13 @@
         try
         {
             var result = await http.PostAsJsonAsync<NewCdLabelVM>("/api/RegisterCd/RegisterLabel",newCdLabelVM);
-            if (((int)result.StatusCode)/10 != 20)
+            
+            if (((int)result.StatusCode)/10 == 40)
+            {
+                navigationManager.NavigateTo("login");
+                return;
+            }
+            else if (((int)result.StatusCode)/10 != 20)
             {
                 var errMsg = await result.Content.ReadFromJsonAsync<TbActionResult<string>>();
                 message = "خطا:" + errMsg.Desc;
