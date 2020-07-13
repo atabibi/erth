@@ -249,7 +249,7 @@ namespace Erth.Server.Controllers
                                         l.RegisteredLabels.Count > 0
                                     )
                                 )
-                                .OrderBy(l => l.Label);
+                                .OrderBy(l => l.RegisteredLabels.Count);
 
                 if (countOnly)        
                 {
