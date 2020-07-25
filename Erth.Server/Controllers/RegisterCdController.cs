@@ -101,8 +101,10 @@ namespace Erth.Server.Controllers
         {
             try
             {
+                // var nLabels = await dbContext.CdLabels.CountAsync(cd=>cd.Label.Trim() == registerVM.CdLabel.ToUpper().Trim());
+
                 // اول چک کن که سی دی با این برچسب در بانک اطلاعاتی هست یا نه
-                var cdlable = await dbContext.CdLabels.SingleOrDefaultAsync(cd => cd.Label.Trim() == registerVM.CdLabel.ToUpper().Trim());
+                var cdlable = await dbContext.CdLabels.FirstOrDefaultAsync(cd => cd.Label.Trim() == registerVM.CdLabel.ToUpper().Trim());
                 if (cdlable == null)
                 {
                     return BadRequest(new TbActionResult<RegisterCdVM>
