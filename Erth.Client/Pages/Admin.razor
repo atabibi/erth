@@ -2,6 +2,7 @@
 
 @inject HttpClient http
 @inject NavigationManager navigationManager
+@inject IJSRuntime JsRuntime
 
 <AuthorizeView>
     <Authorized>
@@ -26,6 +27,16 @@
             <div class="col-md">
                 <button type="button"  class="btn btn-danger btn-block" 
                 @onclick="@BtnAddNewUserClicked">کاربران</button>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md">
+                <button type="button" name="btnDownloadProRegisteredCds" id="btnDownloadProRegisteredCds" class="btn btn-success btn-block" 
+                @onclick="@(async () =>  await BtnDownloadProRegisteredCds())">دانلود کدهای ثبت شده حرفه‌ای</button>
+            </div>
+            <div class="col-md">
+                <button type="button" name="btnDownloadStudentRegisteredCds" id="btnDownloadStudentRegisteredCds" class="btn btn-primary btn-block" 
+                @onclick="@(async () =>  await BtnDownloadStudentRegisteredCds())">دانلود کدهای ثبت شده دانشجویی</button>
             </div>
         </div>
         
@@ -174,5 +185,56 @@
     void BtnAddNewUserClicked()
     {
         navigationManager.NavigateTo("/manageusers");
+    }
+
+    // دانلود فایل سی اس وی کدهای گرفته شده نسخه حرفه ای
+    async Task BtnDownloadProRegisteredCds()
+    {
+        await DownloadRegisteredCds(RegisteredCdType.ProRegistered);
+    }
+
+    async Task BtnDownloadStudentRegisteredCds()
+    {
+        await DownloadRegisteredCds(RegisteredCdType.StudentRegistered);
+    }
+
+    async Task DownloadRegisteredCds(RegisteredCdType registeredCdType)
+    {
+        var results = await http.GetFromJsonAsync<TbActionResult<List<RegisterCdVMwithDate>>>(
+                                    $"api/RegisterCd/RegisteredCds?cdType={registeredCdType}&orderBy={OderedBy}&from={0}&count={-1}"
+                                    );
+
+        List<RegisterCdVMwithDate> cds; 
+        if (results.Success)
+        {
+            cds = results.Object;
+
+            var csv = ListCdVMwithDateToCsvString(cds);
+            
+            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(csv);
+            using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
+            {
+                await stream.WriteAsync(buffer, 0, buffer.Length);
+                await JsRuntime.InvokeAsync<object>("saveAsFile", "report.csv" ,stream.ToArray()).AsTask();
+            }            
+        }        
+    }
+
+    string ListCdVMwithDateToCsvString(List<RegisterCdVMwithDate> cds)
+    {
+        string result="برچسب" + "," +
+                        "نام" + "," +
+                        "استان" + "," +
+                        "شهر" + "," +
+                        "شعبه" + "," +
+                        "ش سریال" + "," +
+                        "تاریخ" + "\r\n" ;
+
+        foreach(var cd in cds)
+        {
+            result += cd.ToCsv + "\r\n";
+        }
+
+        return result;    
     }
 }

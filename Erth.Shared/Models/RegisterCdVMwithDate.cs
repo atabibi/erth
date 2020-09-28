@@ -10,5 +10,8 @@ namespace Erth.Shared.Models
         public string CdLabel { get; set; }
         public string Sn { get; set; }
         public string DateRegistred { get; set; }
+
+        public string ToCsv => $"{CdLabel},{FullName},{United},{City},{Shobeh},{(Sn =="unknown" ? "-" : Sn)},{DateRegistred}";
+       
     }
 }
