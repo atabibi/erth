@@ -214,7 +214,7 @@ img.scaled:hover {
     }
 
     .sidebar {
-        
+        min-width: 250px;
         height: 100vh;
         position: sticky;
         top: 0;
