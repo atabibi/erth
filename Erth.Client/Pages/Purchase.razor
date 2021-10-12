@@ -1,4 +1,5 @@
 @page "/purchase"
+@inject HttpClient Http
 
 <h3 class="center">خرید</h3>
 
@@ -42,7 +43,27 @@
 
 @code 
 {
-    int gheymat= 85;
+    int gheymat= 0;
     string shomareHesab = "0104351469001";
     string mobile = "09132708341";
+
+    protected override async Task  OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        try
+        {
+            var settings = await Http.GetFromJsonAsync<Settings>("settings.json");
+            gheymat = settings.Price;
+        }
+        catch (System.Exception err)
+        {
+            Console.WriteLine(err.ToString());
+        }
+    }
+
+    public class Settings
+    {
+        public int Price { get; set; }
+    }
 }
