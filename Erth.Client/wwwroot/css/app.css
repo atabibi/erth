@@ -40,7 +40,7 @@ h3 {
     border-color: #1861ac;
 }
 
-app {
+#app {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -209,7 +209,7 @@ img.scaled:hover {
 }
 
 @media (min-width: 768px) {
-    app {
+    #app {
         flex-direction: row;
     }
 
