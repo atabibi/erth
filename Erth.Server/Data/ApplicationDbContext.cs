@@ -33,6 +33,6 @@ namespace Erth.Server.Data
 
         public DbSet<CdLabel> CdLabels { get; set; }
         public DbSet<RegistredLabel> RegisteredLabels { get; set; }
-
+        public DbSet<Setting> Settings { get; set; }
     }
 }
