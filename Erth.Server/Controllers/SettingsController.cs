@@ -23,7 +23,7 @@ namespace Erth.Server.Controllers
 
         [HttpGet("[action]")]
         [AllowAnonymous]
-        public IActionResult GetValueOf(string label)
+        public IActionResult GetValueOf([FromQuery]string label)
         {
             var setting = dbContext.Settings.SingleOrDefault( s => s.Label.ToUpper() == label.ToUpper());
             if (setting == null)
@@ -42,8 +42,8 @@ namespace Erth.Server.Controllers
                 });
         }
 
-        [HttpPut("[action]")]
-        public async Task<IActionResult> SetValueOf(string label, string value)
+        [HttpPut("[action]")]        
+        public async Task<IActionResult> SetValueOf([FromForm]string label, [FromForm]string value)
         {
             var setting = dbContext.Settings.SingleOrDefault( s => s.Label.ToUpper() == label.ToUpper());
             if (setting == null)
@@ -79,7 +79,7 @@ namespace Erth.Server.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> InsertLabelValue(string label, string value)
+        public async Task<IActionResult> InsertLabelValue([FromForm]string label, [FromForm]string value)
         {
             var setting = dbContext.Settings.SingleOrDefault( s => s.Label.ToUpper() == label.ToUpper());
             if (setting != null)
