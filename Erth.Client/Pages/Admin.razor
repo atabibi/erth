@@ -9,37 +9,57 @@
         <h3 class="center">بخش مدیریت</h3>
         <div class="row">
             <div class="col-md">
-                <button type="button" name="btnStudentRegisteredCDs" id="btnStudentRegisteredCDs" class="btn btn-primary btn-block" 
-                @onclick="@(async () =>  await BtnsClicked(RegisteredCdType.StudentRegistered))">کدهای دانشجویی</button>
+                <button type="button" name="btnStudentRegisteredCDs" id="btnStudentRegisteredCDs" class="btn btn-primary btn-block"
+                        @onclick="@(async () =>  await BtnsClicked(RegisteredCdType.StudentRegistered))">
+                    کدهای دانشجویی
+                </button>
             </div>
             <div class="col-md">
-                <button type="button" name="btnProRegisteredCDs" id="btnProRegisteredCDs" class="btn btn-success btn-block" 
-                @onclick="@(async () => await BtnsClicked(RegisteredCdType.ProRegistered))">کدهای حرفه‌ای</button>
+                <button type="button" name="btnProRegisteredCDs" id="btnProRegisteredCDs" class="btn btn-success btn-block"
+                        @onclick="@(async () => await BtnsClicked(RegisteredCdType.ProRegistered))">
+                    کدهای حرفه‌ای
+                </button>
             </div>
             <div class="col-md">
-                <button type="button"  class="btn btn-warning btn-block" 
-                @onclick="@BtnGetNewLabelClicked">درخواست برچسب</button>
+                <button type="button" class="btn btn-warning btn-block"
+                        @onclick="@BtnGetNewLabelClicked">
+                    درخواست برچسب
+                </button>
             </div>
             <div class="col-md">
-                <button type="button"  class="btn btn-info btn-block" 
-                @onclick="@BtnLabelsListClicked">برچسب‌های ثبت شده</button>
+                <button type="button" class="btn btn-info btn-block"
+                        @onclick="@BtnLabelsListClicked">
+                    برچسب‌های ثبت شده
+                </button>
             </div>
             <div class="col-md">
-                <button type="button"  class="btn btn-danger btn-block" 
-                @onclick="@BtnAddNewUserClicked">کاربران</button>
+                <button type="button" class="btn btn-danger btn-block"
+                        @onclick="@BtnAddNewUserClicked">
+                    کاربران
+                </button>
             </div>
         </div>
         <div class="row mt-2">
             <div class="col-md">
-                <button type="button" name="btnDownloadProRegisteredCds" id="btnDownloadProRegisteredCds" class="btn btn-success btn-block" 
-                @onclick="@(async () =>  await BtnDownloadProRegisteredCds())">دانلود کدهای ثبت شده حرفه‌ای</button>
+                <button type="button" name="btnDownloadProRegisteredCds" id="btnDownloadProRegisteredCds" class="btn btn-success btn-block"
+                        @onclick="@(async () =>  await BtnDownloadProRegisteredCds())">
+                    دانلود کدهای ثبت شده حرفه‌ای
+                </button>
             </div>
             <div class="col-md">
-                <button type="button" name="btnDownloadStudentRegisteredCds" id="btnDownloadStudentRegisteredCds" class="btn btn-primary btn-block" 
-                @onclick="@(async () =>  await BtnDownloadStudentRegisteredCds())">دانلود کدهای ثبت شده دانشجویی</button>
+                <button type="button" name="btnDownloadStudentRegisteredCds" id="btnDownloadStudentRegisteredCds" class="btn btn-primary btn-block"
+                        @onclick="@(async () =>  await BtnDownloadStudentRegisteredCds())">
+                    دانلود کدهای ثبت شده دانشجویی
+                </button>
+            </div>
+            <div class="col-md">
+                <button type="button" name="btnDownloadStudentRegisteredCds" id="btnDownloadStudentRegisteredCds" class="btn btn-primary btn-block"
+                        @onclick="@(async () =>  await BtnSettingsClicked())">
+                    تنظیمات
+                </button>
             </div>
         </div>
-        
+
         <div class="row">
             <strong>@strSelectedType</strong>
 
@@ -47,21 +67,21 @@
             {
                 <TbList Items="CdsData" TItem="RegisterCdVMwithDate" FromIndex="indexFrom">
                     <Header>
-                        <th>ردیف</th>
-                        <th>برچسب سی‌دی</th>
-                        <th>نام</th>
-                        <th> 
-                            <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.United))">
-                                <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> استان
-                            </button>
-                        </th>
-                        <th>شهر</th>
-                        <th>شعبه</th>
-                        <th>
-                            <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.Date))">
-                                <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> تاریخ
-                            </button>
-                        </th>     
+                    <th>ردیف</th>
+                    <th>برچسب سی‌دی</th>
+                    <th>نام</th>
+                    <th>
+                        <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.United))">
+                            <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> استان
+                        </button>
+                    </th>
+                    <th>شهر</th>
+                    <th>شعبه</th>
+                    <th>
+                        <button class="btn btn-link" @onclick="@(async ()=> await BtnOrderRegisteredCds(OrderBy.Date))">
+                            <span class="@(OrderInverse ? "oi oi-sort-descending" : "oi oi-sort-ascending")"></span> تاریخ
+                        </button>
+                    </th>
                     </Header>
                     <Row Context="cd">
                         <td>@cd.CdLabel</td>
@@ -71,7 +91,7 @@
                         <td>@cd.Shobeh</td>
                         <td>@cd.DateRegistred</td>
                     </Row>
-                </TbList>                
+                </TbList>
             }
             else
             {
@@ -82,14 +102,69 @@
                         <p>در حال بارگیری...</p>
                     </div>
                 }
-            
+
             }
-            
+
         </div>
 
         @if (CdsData != null)
         {
-            <RecordNavigation OnNavigate="@OnNavigateRecords" FromIndex="@indexFrom" Count="@Count" AllRecordsCount="@AllRecordsCount"/>
+            <RecordNavigation OnNavigate="@OnNavigateRecords" FromIndex="@indexFrom" Count="@Count" AllRecordsCount="@AllRecordsCount" />
+        }
+
+        @if (Settings != null)
+        {
+            <br />
+            <div class="row">
+                <TbList Items="Settings" TItem="SettingVM" FromIndex="0">
+                    <Header>
+                    <th>ردیف</th>
+                    <th>عنوان</th>
+                    <th>مقدار</th>
+                    <th class="text-center">
+                        <button class="btn btn-primary" @onclick ="@( () => BtnAddNewSettingClicked() )"><span class="oi oi-plus"></span></button>
+                    </th>
+                    </Header>
+                    <Row Context="Setting">
+                        <td>
+                            @if (Setting.IsEditMode)
+                            {
+                                <input @bind="Setting.Label" class="form-control">
+                            }
+                            else
+                            {
+                                @Setting.Label
+                            }
+                        </td>
+                        <td>
+                            @if (Setting.IsEditMode)
+                            {
+                                <input @bind="Setting.Value" class="form-control">
+                            }
+                            else
+                            {
+                                @Setting.Value
+                            }
+                        </td>
+                        <td class="text-center" style="min-width:150px;">
+                            @if (Setting.IsEditMode)
+                            {
+                                <button class="btn btn-success" @onclick="@( async () => { await SaveSettingChanges(Setting); Setting.IsEditMode = false; })"><span class="oi oi-check"></span></button>
+                                <button class="btn btn-warning" @onclick="@( async ()=> { await GetSettings(); Setting.IsEditMode = false; })">
+                                    <span class="oi oi-x"></span>
+                                </button>
+                                <button class="btn btn-danger" @onclick="@( async () => { await DeleteSetting(Setting); Setting.IsEditMode = false; })">
+                                    <span class="oi oi-trash"></span>
+                                </button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary" @onclick="@( ()=> { Setting.IsEditMode = true; })"><span class="oi oi-pencil"></span></button>
+                            }
+                        </td>                        
+                    </Row>
+                </TbList>
+            </div>
         }
     </Authorized>
 </AuthorizeView>
@@ -105,8 +180,16 @@
     public int indexFrom { get; set; }
     public int Count { get; set; } = 10;
     public int AllRecordsCount { get; set; }
+
+    public List<SettingVM> Settings { get; set; } = null;
+
+    async Task BtnSettingsClicked()
+    {
+        await GetSettings();
+    }
+
     async Task BtnsClicked(RegisteredCdType cdType)
-    {        
+    {
         indexFrom = 0;
         RegisteredCdType = cdType;
         await GetRegisteredCds();
@@ -127,7 +210,7 @@
     {
         try
         {
-            
+
             isLoading = true;
 
             // اول تعداد کل رکوردها را بیاب
@@ -138,17 +221,19 @@
             AllRecordsCount = resultsCount.Object;
             strSelectedType = resultsCount.Desc;
 
-            
+
             var results = await http.GetFromJsonAsync<TbActionResult<List<RegisterCdVMwithDate>>>(
                                     $"api/RegisterCd/RegisteredCds?cdType={RegisteredCdType}&orderBy={OderedBy}&from={indexFrom}&count={Count}"
                                     );
-            
+
             if (results.Success)
             {
                 CdsData = results.Object;
             }
             isLoading = false;
-                
+
+            Settings = null;
+
         }
         catch (System.Exception err)
         {
@@ -159,7 +244,7 @@
         }
     }
 
-   
+
     async Task OnNavigateRecords(RecordNavigationEventArgs recordNavigation)
     {
         indexFrom = recordNavigation.FromIndex;
@@ -171,7 +256,7 @@
 
     // New Label
     void BtnGetNewLabelClicked()
-    {        
+    {
         navigationManager.NavigateTo($"/newcdlabel");
     }
 
@@ -204,20 +289,20 @@
                                     $"api/RegisterCd/RegisteredCds?cdType={registeredCdType}&orderBy={OderedBy}&from={0}&count={-1}"
                                     );
 
-        List<RegisterCdVMwithDate> cds; 
+        List<RegisterCdVMwithDate> cds;
         if (results.Success)
         {
             cds = results.Object;
 
             var csv = ListCdVMwithDateToCsvString(cds);
-            
+
             byte[] buffer = System.Text.Encoding.UTF8.GetBytes(csv);
             using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
             {
                 await stream.WriteAsync(buffer, 0, buffer.Length);
                 await JsRuntime.InvokeAsync<object>("saveAsFile", "report.csv" ,stream.ToArray()).AsTask();
-            }            
-        }        
+            }
+        }
     }
 
     string ListCdVMwithDateToCsvString(List<RegisterCdVMwithDate> cds)
@@ -235,6 +320,109 @@
             result += cd.ToCsv + "\r\n";
         }
 
-        return result;    
+        return result;
+    }
+
+    async Task GetSettings()
+    {
+        var results = await http.GetFromJsonAsync<TbActionResult<List<Setting>>>(
+                                    $"api/Settings/GetSettingsList"
+                                    );
+
+        if (results.Success)
+        {
+            CdsData = null;
+
+            Settings = results.Object.ConvertAll(s => new SettingVM
+            {
+                Id = s.Id,
+                Label = s.Label,
+                Value = s.Value
+            }).ToList();
+
+            strSelectedType = "";
+        }
+    }
+
+    void BtnAddNewSettingClicked()
+    {
+        if (Settings.Count(s => s.Id == -1) > 0)
+            return;
+
+        Settings.Add(
+                new SettingVM
+                {
+                    Id = -1,
+                    IsEditMode = true,
+                    Label= "",
+                    Value = ""
+                }
+            );
+    }
+
+    async Task SaveSettingChanges(SettingVM setting)
+    {
+        if (setting.Id == -1)
+        {
+            // New Setting
+            await AddNewSetting(setting);
+        }
+        else
+        {
+            // Update Exsit Setting
+            var results = await http.PutAsJsonAsync<Setting>(
+                                $"api/Settings/UpdateLabelAndValue",
+                                new Setting
+                                {
+                                    Id = setting.Id,
+                                    Label = setting.Label,
+                                    Value = setting.Value
+                                }
+                                );
+
+            if (results.IsSuccessStatusCode == false)
+            {
+                strSelectedType = "خطا در ذخیره تغییرات";
+            }
+
+        }
+
+    }
+
+    async Task AddNewSetting(SettingVM newSetting)
+    {
+        var results = await http.PostAsJsonAsync<Setting>(
+                               $"api/Settings/AddNewSetting",
+                               new Setting
+                               {
+                                   Id = newSetting.Id,
+                                   Label = newSetting.Label,
+                                   Value = newSetting.Value
+                               }
+                               );
+
+        if (results.IsSuccessStatusCode == false)
+        {
+            strSelectedType = "خطا در ذخیره تغییرات";
+            Settings.RemoveAt(Settings.Count() - 1);
+        }
+        else
+        {
+            await GetSettings();
+        }
+    }
+
+    async Task DeleteSetting(SettingVM setting)
+    {
+        var results = await http.DeleteAsync(
+                           $"api/Settings/DeleteSetting?id={setting.Id}");
+
+        if (results.IsSuccessStatusCode == false)
+        {
+            strSelectedType = "خطا در حذف ";
+        }
+        
+        await GetSettings();
+      
     }
 }

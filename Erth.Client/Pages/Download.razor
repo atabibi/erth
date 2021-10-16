@@ -1,52 +1,53 @@
 @page "/download"
+@inject HttpClient Http
 
 <h3 class="center">دانلود نرم افزار ارث</h3>
 
 <div class="card" style="margin-bottom: 10px;">
-  <img style="width: 80%; margin:auto;" src="images/Erth3.4Scientific.png" class="card-img-top" alt="نرم افزار ارث نسخه ۳/۴ علمی کاربردی">
-  <div class="card-body">
-    <h5 class="card-title">دانلود نرم افزار ارث نسخه‌ی علمی-کاربردی ۳/۴ - ۱۳۹۹</h5>
-    <p class="card-text">
+    <img style="width: 80%; margin:auto;" src="images/Erth3.4Scientific.png" class="card-img-top" alt="نرم افزار ارث نسخه ۳/۴ علمی کاربردی">
+    <div class="card-body">
+        <h5 class="card-title">دانلود @StudentVersionFullName</h5>
+        <p class="card-text">
         <p>
             <span class="text-danger">امکانات جدید:</span>
-             در این نسخه امکان چاپ نتایج حصر وراثت افزوده شده است.
+            در این نسخه امکان چاپ نتایج حصر وراثت افزوده شده است.
             همچنین در این نسخه مشکل نصب بر روی درایو حاوی ویندوز رفع شده
-            و شما می‌توانید نرم‌افزار را بر روی هر مسیر دلخواهی نصب کنید 
+            و شما می‌توانید نرم‌افزار را بر روی هر مسیر دلخواهی نصب کنید
         </p>
         <p>
             <span class="text-danger">سیستم مورد نیاز:</span>
-             نسخه ۳/۴ بر روی ویندوز ویستا ویندوز ۷ و ۸ و نسخ مختلف ویندوز ۱۰ قابل نصب است. 
+            @StudentVersionFullName بر روی ویندوز ویستا ویندوز ۷ و ۸ و نسخ مختلف ویندوز ۱۰ قابل نصب است.
             امکان نصب این نسخه بر روی
-            <span class="text-danger"> ویندوز ایکس پی وجود ندارد </span>    
-        </p>        
+            <span class="text-danger"> ویندوز ایکس پی وجود ندارد </span>
+        </p>
         <p>
             <span class="text-danger">خرید مجوز و فعالسازی:</span>
-                پس از نصب نرم‌افزار و در اولین استفاده از آن لازم است آنرا فعال کنید
-                برای اینکار نیاز به کد برچسب سی‌دی دارید. با داشتن این 
-                کد می‌توانید نرم‌افزار را به صورت خودکار یا دستی فعال کنید.
-                برای خرید مجوز به صفحه
-                <a href="/purchase">خرید نرم‌افزار</a>
-                مراجعه کنید.
-                مشتریانی که نسخه‌ی قبلی نرم‌افزار را خریداری نموده‌اند 
-                می‌توانند با همان برچسب قبلی نسخه‌ی جدید را فعالسازی کنند و نیازی به خرید
-                مجوز جدید ندارند.
-        </p>   
-    </p>
-    <div class="text-center">
-        <a href="http://s12.picofile.com/file/8401769834/Erth3_4.exe.html"  target="_blank" class="btn btn-primary">دانلود نسخه ۳/۴ علمی-کاربردی</a>
-    </div>
-
-    <h5 class="card-title">دانلود نرم افزار ارث نسخه‌ی همراه با کتاب المیراث - ۱۳۹۹</h5>
-    <p class="card-text">
+            پس از نصب نرم‌افزار و در اولین استفاده از آن لازم است آنرا فعال کنید
+            برای اینکار نیاز به کد برچسب سی‌دی دارید. با داشتن این
+            کد می‌توانید نرم‌افزار را به صورت خودکار یا دستی فعال کنید.
+            برای خرید مجوز به صفحه
+            <a href="/purchase">خرید نرم‌افزار</a>
+            مراجعه کنید.
+            مشتریانی که نسخه‌ی قبلی نرم‌افزار را خریداری نموده‌اند
+            می‌توانند با همان برچسب قبلی نسخه‌ی جدید را فعالسازی کنند و نیازی به خرید
+            مجوز جدید ندارند.
+        </p>
+        </p>
+        <div class="text-center">
+            <a href="@StudentVersionDownloadLink" target="_blank" class="btn btn-primary">دانلود @StudentVersionFullName</a>
+        </div>
+        <br />
+        <h5 class="card-title">دانلود @AlmirathVersionFullName</h5>
+        <p class="card-text">
         <p>
             <span class="text-danger">نکته:</span>
-             این نسخه از نرم‌افزار مخصوص مشتریانی است که کتاب 
-             "<span class="text-danger">آموزش کاربردی کتاب میراث شرح لمعه بهمراه ۴۰۰ نمودار</span>"
-              را خریداری کرده‌اند.
-             همراه با نرم افزار یک فایل پاورپوینت نصب می‌شود که میانبر آن در کنار میانبر نرم‌افزار بر روی دسکتاپ ایجاد می‌شود. 
-              این فایل بعنوان بخش تکمیلی کتاب چاپ شده محسوب می‌گردد و شامل دهها مثال کاربردی است. 
-              در اسلایدهایی از این فایل که شامل مثال کاربردی است، لینکی وجود دارد که با کلیک بر روی آن، فایل مثال در نرم‌افزار ارث باز شده و 
-               کاربر می‌تواند به صورت عملی نتیجه مثال را در نرم‌افزار ارث مشاهده کند. 
+            این نسخه از نرم‌افزار مخصوص مشتریانی است که کتاب
+            "<span class="text-danger">آموزش کاربردی کتاب میراث شرح لمعه بهمراه ۴۰۰ نمودار</span>"
+            را خریداری کرده‌اند.
+            همراه با نرم افزار یک فایل پاورپوینت نصب می‌شود که میانبر آن در کنار میانبر نرم‌افزار بر روی دسکتاپ ایجاد می‌شود.
+            این فایل بعنوان بخش تکمیلی کتاب چاپ شده محسوب می‌گردد و شامل دهها مثال کاربردی است.
+            در اسلایدهایی از این فایل که شامل مثال کاربردی است، لینکی وجود دارد که با کلیک بر روی آن، فایل مثال در نرم‌افزار ارث باز شده و
+            کاربر می‌تواند به صورت عملی نتیجه مثال را در نرم‌افزار ارث مشاهده کند.
         </p>
         <p>
             <span class="text-danger">روش فعالسازی:</span>
@@ -55,46 +56,155 @@
         </p>
         <p>
             <span class="text-danger">سیستم مورد نیاز:</span>
-             این نسخه بر روی ویندوز ویستا ویندوز ۷ و ۸ و نسخ مختلف ویندوز ۱۰ قابل نصب است. 
+            این نسخه بر روی ویندوز ویستا ویندوز ۷ و ۸ و نسخ مختلف ویندوز ۱۰ قابل نصب است.
             امکان نصب این نسخه بر روی
-            <span class="text-danger"> ویندوز ایکس پی وجود ندارد </span>    
-        </p>       
-    </p>
-    <div class="text-center">
-        <a href="https://iutbox.iut.ac.ir/index.php/s/ebWg38MDcDirijS"  target="_blank" class="btn btn-primary">دانلود نسخه همراه با کتاب المیراث </a>
+            <span class="text-danger"> ویندوز ایکس پی وجود ندارد </span>
+        </p>
+        </p>
+        <div class="text-center">
+            <a href="@AlmirathVersionDownloadLink" target="_blank" class="btn btn-primary">دانلود @AlmirathVersionFullName </a>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="card">
-  <img style="width: 80%; margin:auto;" src="images/Erth3.4Pro.png" class="card-img-top" alt="نرم افزار ارث نسخه ۳/۴ حصر وراثت">
-  <div class="card-body">
-    <h5 class="card-title">دانلود نرم افزار ارث نسخه‌ی حرفه‌ای مخصوص شعب حل اختلاف ۳/۴ - ۱۳۹۹</h5>
-    <p class="card-text">
+    <img style="width: 80%; margin:auto;" src="images/Erth3.4Pro.png" class="card-img-top" alt="نرم افزار ارث نسخه ۳/۴ حصر وراثت">
+    <div class="card-body">
+        <h5 class="card-title">دانلود @ProVersionFullName</h5>
+        <p class="card-text">
         <p>
             <span class="text-danger">امکانات جدید:</span>
-             در این نسخه مشکل نصب بر روی درایو حاوی ویندوز رفع شده است
-            و شما می‌توانید نرم‌افزار را بر روی هر مسیر دلخواهی نصب کنید 
+            در این نسخه مشکل نصب بر روی درایو حاوی ویندوز رفع شده است
+            و شما می‌توانید نرم‌افزار را بر روی هر مسیر دلخواهی نصب کنید
         </p>
         <p>
             <span class="text-danger">سیستم مورد نیاز:</span>
-             نسخه ۳/۴ بر روی ویندوز ویستا ویندوز ۷ و ۸ و نسخ مختلف ویندوز ۱۰ قابل نصب است. 
+            نسخه ۳/۴ بر روی ویندوز ویستا ویندوز ۷ و ۸ و نسخ مختلف ویندوز ۱۰ قابل نصب است.
             امکان نصب این نسخه بر روی
-            <span class="text-danger"> ویندوز ایکس پی وجود ندارد. در صورتیکه مجبور به استفاده از 
-              ویندوز ایکس پی می‌باشید لطفا آخرین نسخه‌ی قبلی یعنی ۳/۳ را نصب کنید. </span>    
+            <span class="text-danger">
+                ویندوز ایکس پی وجود ندارد. در صورتیکه مجبور به استفاده از
+                ویندوز ایکس پی می‌باشید لطفا آخرین نسخه‌ی قبلی یعنی ۳/۳ را نصب کنید.
+            </span>
         </p>
         <p>
             <span class="text-danger">مهم:</span>
-            این نسخه از نرم‌افزار برای اجرا نیاز به 
-            .Net Framework 4.6
+            این نسخه از نرم‌افزار برای اجرا نیاز به
+            .Net Framework @DotNetFrameWorkVersion
             یا بالاتر دارد. از آنجاییکه معمولا فریمورک فوق بر روی ویندوزهای
             ۷ و بالاتر نصب می‌باشد به منظور کاهش حجم دانلود، در داخل برنامه‌ی نصب قرار داده نشده است
             در صورت نیاز می‌توانید آنرا از لینک زیر دانلود و نصب نمایید:
-            <p><a href="https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net48-offline-installer" target="_blank" class="btn btn-light">دانلود .Net Framework 4.8</a></p>
-        </p>   
-    </p>
-    <div class="text-center">
-        <a href="http://s13.picofile.com/file/8402557076/SetupErth3_4.exe.html" target="_blank" class="btn btn-primary">دانلود نسخه ۳/۴ حصر وراثت(مخصوص شعب حل اختلاف)</a>
+        <p><a href="@DotNetFrameWorkDownloadLink" target="_blank" class="btn btn-light">دانلود .Net Framework</a></p>
+        </p>
+        </p>
+        <div class="text-center">
+            <a href="@ProVersionDownloadLink" target="_blank" class="btn btn-primary">دانلود @ProVersionFullName</a>
+        </div>
     </div>
-  </div>
 </div>
+
+@code
+{
+    string StudentVersionDownloadLink = "";
+    string StudentVersionFullName;
+
+    string ProVersionDownloadLink = "";
+    string ProVersionFullName;
+
+    string AlmirathVersionDownloadLink = "";
+    string AlmirathVersionFullName;
+
+    string DotNetFrameWorkVersion = "";
+    string DotNetFrameWorkDownloadLink = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        try
+        {
+            //----------Student----------
+            var str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                                   $"api/Settings/GetValueOf?label=StudentVersionDownloadLink"
+                                   );
+
+            if (str.Success)
+            {
+                StudentVersionDownloadLink = str.Object;
+            }
+            //-------------
+            str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                                   $"api/Settings/GetValueOf?label=StudentVersionFullName"
+                                   );
+
+            if (str.Success)
+            {
+                StudentVersionFullName = str.Object;
+            }
+
+            // -----------PRO--------------
+            str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                          $"api/Settings/GetValueOf?label=ProVersionDownloadLink"
+                          );
+
+            if (str.Success)
+            {
+                ProVersionDownloadLink = str.Object;
+            }
+            //-----
+            str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                                  $"api/Settings/GetValueOf?label=ProVersionFullName"
+                                  );
+
+            if (str.Success)
+            {
+                ProVersionFullName = str.Object;
+            }
+
+            //-------------Almirath-----
+            str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                         $"api/Settings/GetValueOf?label=AlmirathVersionDownloadLink"
+                         );
+
+            if (str.Success)
+            {
+                AlmirathVersionDownloadLink = str.Object;
+            }
+            //-----
+            str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                                  $"api/Settings/GetValueOf?label=AlmirathVersionFullName"
+                                  );
+
+            if (str.Success)
+            {
+                AlmirathVersionFullName = str.Object;
+            }
+
+            //-------------.Netfraework-----
+            str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                         $"api/Settings/GetValueOf?label=DotNetFrameWorkVersion"
+                         );
+
+            if (str.Success)
+            {
+                DotNetFrameWorkVersion = str.Object;
+            }
+            //------------
+            str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                             $"api/Settings/GetValueOf?label=DotNetFrameWorkDownloadLink"
+                             );
+
+            if (str.Success)
+            {
+                DotNetFrameWorkDownloadLink = str.Object;
+            }
+            //-------------------------
+
+
+        }
+
+        catch (System.Exception err)
+        {
+            Console.WriteLine(err.ToString());
+        }
+    }
+}

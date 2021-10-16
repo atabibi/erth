@@ -10,9 +10,8 @@
         برای دریافت برچسب سی‌دی لطفا مبلغ
         @gheymat
         هزارتومان
-        را به حساب شماره 
+        را به
         @shomareHesab
-        بانک ملی به نام عباس طبیبی جبلی
         واریز و رسید آنرا از طریق پیامک یا واتساپ به شماره
         @mobile
         ارسال فرمایید.
@@ -53,8 +52,30 @@
 
         try
         {
-            var settings = await Http.GetFromJsonAsync<Settings>("settings.json");
-            gheymat = settings.Price;
+            //var settings = await Http.GetFromJsonAsync<Settings>("settings.json");
+            var strPrice = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                                    $"api/Settings/GetValueOf?label=StudentVersionPrice"
+                                    );
+
+            if (strPrice.Success)
+            {
+                int price = 0;
+                if (int.TryParse(strPrice.Object, out price))
+                    gheymat = price;
+                else
+                    gheymat = 200;
+            }
+
+            //-------
+            var strHesab = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                                    $"api/Settings/GetValueOf?label=HesabVariz"
+                                    );
+
+            if (strHesab.Success)
+            {
+                shomareHesab = strHesab.Object;
+            }
+
         }
         catch (System.Exception err)
         {
