@@ -370,7 +370,7 @@
         else
         {
             // Update Exsit Setting
-            var results = await http.PutAsJsonAsync<Setting>(
+            var results = await http.PostAsJsonAsync<Setting>(
                                 $"api/Settings/UpdateLabelAndValue",
                                 new Setting
                                 {
@@ -414,10 +414,10 @@
 
     async Task DeleteSetting(SettingVM setting)
     {
-        var results = await http.DeleteAsync(
+        var results = await http.GetFromJsonAsync<TbActionResult<Setting>>(
                            $"api/Settings/DeleteSetting?id={setting.Id}");
 
-        if (results.IsSuccessStatusCode == false)
+        if (results.Success == false)
         {
             strSelectedType = "خطا در حذف ";
         }

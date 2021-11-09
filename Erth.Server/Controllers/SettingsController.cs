@@ -69,7 +69,7 @@ namespace Erth.Server.Controllers
                 });
         }
 
-        [HttpPut("[action]")]        
+        [HttpPost("[action]")]        
         public async Task<IActionResult> SetValueOf([FromForm]string label, [FromForm]string value)
         {
             var setting = dbContext.Settings.SingleOrDefault( s => s.Label.ToUpper() == label.ToUpper());
@@ -105,7 +105,7 @@ namespace Erth.Server.Controllers
             
         }
 
-        [HttpPut("[action]")]
+        [HttpPost("[action]")]
         public async Task<IActionResult> UpdateLabelAndValue([FromBody] Setting settingVal)
         {
             var setting = dbContext.Settings.SingleOrDefault(s => s.Id == settingVal.Id);
@@ -232,7 +232,7 @@ namespace Erth.Server.Controllers
             }
         }
    
-        [HttpDelete("[action]")]
+        [HttpGet("[action]")]
         public async Task<IActionResult> DeleteSetting(int id)
         {
             var setting = dbContext.Settings.SingleOrDefault(s => s.Id == id);
