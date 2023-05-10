@@ -1,4 +1,4 @@
-using Erth.Server.Data;
+﻿using Erth.Server.Data;
 using Erth.Server.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Server;
@@ -100,6 +100,17 @@ namespace Erth.Server
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //-- در تاریخ 20 اردیبهشت 1402 اضافه شد
+            //-- شاید مشکل لود شدن وب اسمبلی حل شود!
+            app.UseCors(cors => cors
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .SetIsOriginAllowed(origin => true)
+            .AllowCredentials()
+            );
+            //-----------------------------------
+
 
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
