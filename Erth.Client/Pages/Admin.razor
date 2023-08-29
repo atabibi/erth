@@ -296,12 +296,9 @@
 
             var csv = ListCdVMwithDateToCsvString(cds);
 
+
             byte[] buffer = System.Text.Encoding.UTF8.GetBytes(csv);
-            using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
-            {
-                await stream.WriteAsync(buffer, 0, buffer.Length);
-                await JsRuntime.InvokeAsync<object>("saveAsFile", "report.csv" ,stream.ToArray()).AsTask();
-            }
+            await JsRuntime.InvokeAsync<object>("saveFile", "report.csv", csv).AsTask();
         }
     }
 
@@ -421,8 +418,8 @@
         {
             strSelectedType = "خطا در حذف ";
         }
-        
+
         await GetSettings();
-      
+
     }
 }
