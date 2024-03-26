@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: 'myfont';
-    src: url('fonts/iransansweb.woff2');
+    src: url('fonts/Vazir.woff2');
     font-weight: normal;
     font-style: normal;
     font-size: 0.9em;
@@ -10,14 +10,32 @@
 
 @font-face {
     font-family: 'myfont';
-    src: url('fonts/iransansweb_bold.woff2');
+    src: url('fonts/Vazir-Bold.woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-size: 0.9em;
+}
+
+@font-face {
+    font-family: "farsiDigits";
+    src: url('fonts/Vazir-FD-WOL.woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-size: 0.9em;
+}
+
+@font-face {
+    font-family: "farsiDigits";
+    src: url('fonts/Vazir-Bold-FD-WOL.woff2');
     font-weight: bold;
     font-style: normal;
     font-size: 0.9em;
 }
 
 html, body {
-    font-family: 'myfont', 'Tahoma', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'farsiDigits', 'myfont', 'Tahoma', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-align:justify;
+    padding: 2px;
 }
 
 a, .btn-link {
