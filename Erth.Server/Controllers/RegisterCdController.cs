@@ -115,6 +115,23 @@ namespace Erth.Server.Controllers
                     });
                 }
 
+                // از مرداد 1404 حصر وراثت از شورای حل اختلاف گرفته شد
+                // بنابراین ثبت نسخه حرفه ای غیر فعال  می شود
+                if (registerVM.SoftwareType == "0") // نسخه حرفه ای
+                {
+                    if (configuration.GetValue<bool>("TbSettings:IsProDisabled"))
+                    {
+                        return BadRequest(new TbActionResult<RegisterCdVM>
+                        {
+                            Success = false,
+                            Object = registerVM,
+                            Desc = $"با توجه به اینکه از مرداد 1404 " +
+                            $"ارایه گزارش وراثت بعهده سازمان ثبت احوال قرار گرفته است" +
+                            $" امکان ثبت نسخه حرفه ای دیگر وجود ندارد"
+                        });
+                    }
+                }
+
                 // دوم چک کن که نوع سی دی در بانک اطلاعاتی همان است که کاربر گفته است:
                 if (cdlable.TypeErth != int.Parse(registerVM.SoftwareType))
                 {
