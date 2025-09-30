@@ -47,6 +47,12 @@
         </div>
         <div class="row mt-2">
             <div class="col-md">
+                <button type="button" name="btnDownloadProRegisteredCds" id="btnDownloadProRegisteredCds" class="btn btn-danger btn-block"
+                        @onclick="@(async () =>  await BtnDownloadSabtRegisteredCds())">
+                    دانلود کدهای ثبت شده ثبت احوال
+                </button>
+            </div>
+            <div class="col-md">
                 <button type="button" name="btnDownloadProRegisteredCds" id="btnDownloadProRegisteredCds" class="btn btn-success btn-block"
                         @onclick="@(async () =>  await BtnDownloadProRegisteredCds())">
                     دانلود کدهای ثبت شده حرفه‌ای
@@ -287,6 +293,11 @@
     async Task BtnDownloadStudentRegisteredCds()
     {
         await DownloadRegisteredCds(RegisteredCdType.StudentRegistered);
+    }
+
+    async Task BtnDownloadSabtRegisteredCds()
+    {
+        await DownloadRegisteredCds(RegisteredCdType.SabtRegistered);
     }
 
     async Task DownloadRegisteredCds(RegisteredCdType registeredCdType)

@@ -9,9 +9,10 @@
             <a href="/admin"> <span class="oi oi-arrow-circle-right"></span> </a>
             لیست برچسب‌هایی که تاکنون به مشتریان اختصاص یافته است
         </h3>
-        <div class="row">            
+        <div class="row">
             <button @onclick="@(async () => await BtnProClicked())" class="btn btn-primary mb-2 ml-2">نسخه‌ی حرفه‌ای</button>
-            <button @onclick="@(async () => await BtnStudentClicked())" class="btn btn-success mb-2 ml-2">نسخه‌ی دانشجویی</button>         
+            <button @onclick="@(async () => await BtnStudentClicked())" class="btn btn-success mb-2 ml-2">نسخه‌ی دانشجویی</button>
+            <button @onclick="@(async () => await BtnSabtClicked())" class="btn btn-danger mb-2 ml-2">نسخه‌ی ثبت احوال</button>
         </div>       
         
         <p>
@@ -61,7 +62,7 @@
     {
         try
         {
-                    //ابتدا تعداد رکوردها را بیاب
+            //ابتدا تعداد رکوردها را بیاب
             var resultsCount = await http.GetFromJsonAsync<TbActionResult<int>>(
                                     $"api/RegisterCd/GetDedicatedLabels?cdTypeErth={typeErth}&from={0}&count={-1}&countOnly=true"
                                     );
@@ -110,4 +111,9 @@
         await GetDedicatedLabels();
     }
 
+    async Task BtnSabtClicked()
+    {
+        typeErth = CdTypeErth.Sabt;
+        await GetDedicatedLabels();
+    }
 }
