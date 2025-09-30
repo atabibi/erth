@@ -3,15 +3,18 @@ namespace Erth.Shared.Models
     public enum CdTypeErth
     {
         Pro,
-        Student
+        Student,
+        Sabt
     }
 
     public enum RegisteredCdType
     {
         ProRegistered,
         StudentRegistered,
+        SabtRegistered,
         ProUnRegistered,
-        StudentUnRegistered
+        StudentUnRegistered,
+        SabtUnRegistred
     }
 
     public enum OrderBy 

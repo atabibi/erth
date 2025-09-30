@@ -30,7 +30,8 @@
         <div>
           <select name="softwaretype" id="softwaretype" @bind="registerCd.SoftwareType">
             <option value="" disabled selected>نسخه نرم افزار خود را انتخاب کنید</option>
-            <option value="0">حرفه ای- شعب حل اختلاف</option>
+            <option value="2">حرفه ای- سازمان ثبت احوال</option>
+              <option value="0">حرفه ای- شعب حل اختلاف</option>
             <option value="1">علمی-کاربردی</option>
           </select>
         </div>
@@ -86,7 +87,7 @@
           <input class="form-control" id="city" placeholder="نام شهر را وارد کنید" name="city" @bind="registerCd.City">
         </div>
       </div>
-      @if (registerCd.SoftwareType == "0") { //Pro
+      @if (registerCd.SoftwareType == "0" || registerCd.SoftwareType == "2") { //Pro and sabt ahval
         <div class="form-group">
           <label for="shobeh">شعبه:</label>
           <div>
@@ -134,7 +135,7 @@
     if (string.IsNullOrEmpty(registerCd.CdLabel) ||
         string.IsNullOrEmpty(registerCd.City) ||
         string.IsNullOrEmpty(registerCd.FullName) ||
-        (string.IsNullOrEmpty(registerCd.Shobeh ) && registerCd.SoftwareType == "pro") ||
+        (string.IsNullOrEmpty(registerCd.Shobeh ) && (registerCd.SoftwareType == "pro" || registerCd.SoftwareType == "sabt")) ||
         string.IsNullOrEmpty(registerCd.United) ||
         string.IsNullOrEmpty(registerCd.Sn) ||
         string.IsNullOrEmpty(registerCd.SoftwareType)

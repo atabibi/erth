@@ -35,7 +35,7 @@ namespace Erth.Server.Controllers
         {            
             try
             {
-                int cdTypeId = (int)cdType % 2;
+                int cdTypeId = (int)cdType % 3;
                 var cds = dbContext.RegisteredLabels.Include(r => r.CdLabel)
                     .Where(r => r.CdLabel.TypeErth == cdTypeId);
 
@@ -132,6 +132,20 @@ namespace Erth.Server.Controllers
                     }
                 }
 
+                // شهریور ماه 1404 نسخه ثبت احوال اضافه شد
+                if (registerVM.SoftwareType == "2") // نسخه ثبت
+                {
+                    if (configuration.GetValue<bool>("TbSettings:IsSabtDisabled"))
+                    {
+                        return BadRequest(new TbActionResult<RegisterCdVM>
+                        {
+                            Success = false,
+                            Object = registerVM,
+                            Desc = $"امکان ثبت نسخه مخصوص ثبت احوال در حال حاضر میسر نیست"
+                        });
+                    }
+                }
+
                 // دوم چک کن که نوع سی دی در بانک اطلاعاتی همان است که کاربر گفته است:
                 if (cdlable.TypeErth != int.Parse(registerVM.SoftwareType))
                 {
@@ -171,7 +185,7 @@ namespace Erth.Server.Controllers
                     United = registerVM.United,
                     DateOf = DateTime.Now,
                     FullName = registerVM.FullName,
-                    Shobeh = (CdTypeErth)(int.Parse(registerVM.SoftwareType)) == CdTypeErth.Pro ?  registerVM.Shobeh : "-",
+                    Shobeh = (CdTypeErth)(int.Parse(registerVM.SoftwareType)) == CdTypeErth.Student ? "-" : registerVM.Shobeh,
                     UserPcSN = registerVM.Sn                    
                 });
 

@@ -10,6 +10,7 @@ namespace Erth.Server.Models
         {
             const ulong BaseCodeForProEdition = 5245689851422347;
             const ulong BaseCodeForStudentEdition = 3335647891306510;
+            const ulong BaseCodeForSabtEdition = 1826549123951453;
 
             char[] space = new char[1] { ' ' };
 
@@ -35,6 +36,9 @@ namespace Erth.Server.Models
                         break;
                     case CdTypeErth.Student:
                         sn = sn - BaseCodeForStudentEdition;
+                        break;
+                    case CdTypeErth.Sabt:
+                        sn = sn - BaseCodeForSabtEdition;
                         break;
                 }
 

@@ -8,7 +8,7 @@ namespace Erth.Shared.Models
         public int Id { get; set; }
         public string Label { get; set; }
 
-        // 0: pro; 1: student
+        // 0: pro; 1: student; 2: sabt
         public int TypeErth { get; set; }
 
         public string CustomerName { get; set; }

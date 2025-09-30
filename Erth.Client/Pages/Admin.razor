@@ -9,6 +9,12 @@
         <h3 class="center">بخش مدیریت</h3>
         <div class="row">
             <div class="col-md">
+                <button type="button" name="btnProRegisteredCDs" id="btnProRegisteredCDs" class="btn btn-success btn-block"
+                        @onclick="@(async () => await BtnsClicked(RegisteredCdType.SabtRegistered))">
+                    کدهای ثبت احوال
+                </button>
+            </div>
+            <div class="col-md">
                 <button type="button" name="btnStudentRegisteredCDs" id="btnStudentRegisteredCDs" class="btn btn-primary btn-block"
                         @onclick="@(async () =>  await BtnsClicked(RegisteredCdType.StudentRegistered))">
                     کدهای دانشجویی
