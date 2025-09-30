@@ -339,3 +339,5 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /Erth.Server/data.db
+/Erth.Server/data.db-shm
+/Erth.Server/data.db-wal
