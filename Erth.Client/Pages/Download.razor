@@ -303,6 +303,16 @@
             {
                 DotNetFrameWorkDownloadLink = str.Object;
             }
+            //-----------
+            str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                             $"api/Settings/GetValueOf?label=DotNetFrameWorkForSabtDownloadLink"
+                             );
+
+            if (str.Success)
+            {
+                DotNetFrameWorkForSabtDownloadLink = str.Object;
+            }
+
             //-------------------------
 
 
