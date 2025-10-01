@@ -4,15 +4,44 @@
 <h3 class="center">خرید</h3>
 
 <div class="card">
+    <div class="card-body">
+        <h5 class="card-title text-danger">خرید مجوز نرم‌افزار ارث-نسخه مخصوص سازمان ثبت احوال</h5>
+        <p class="card-text">
+            برای دریافت برچسب سی‌دی لطفا مبلغ
+            @gheymatSabt
+            را به
+            @shomareHesab
+            واریز و رسید آنرا از طریق پیامک یا ایتا به شماره
+            @mobile
+            ارسال فرمایید.
+        </p>
+        <p class="card-text">
+           هر برچسب صرفا متعلق یه یک سیستم و تنها یکبار قابل استفاده است. بنابراین در ذخیره کردن کد فعالسازی دریافتی دقت نمایید تا برای نصبهای احتمالی بعدی 
+           بر روی همان سیستم دچار مشکل نشوید
+        </p>
+        <p class="card-text">
+            برای دانلود آخرین نسخه‌ی نرم‌افزار به صفحه
+            <a href="/download">دانلود</a>
+            مراجعه کنید.
+        </p>
+        <p class="card-text">
+            برای دریافت کد فعالسازی به روش دستی به صفحه
+            <a href="/registererth">درخواست کد فعالسازی</a>
+            مراجعه کنید.
+        </p>
+    </div>
+</div>
+
+
+<div class="card">
   <div class="card-body">
     <h5 class="card-title text-success">خرید مجوز نرم‌افزار ارث-نسخه علمی-کاربردی</h5>
     <p class="card-text">
         برای دریافت برچسب سی‌دی لطفا مبلغ
-        @gheymat
-        هزارتومان
+        @gheymatStudent
         را به
         @shomareHesab
-        واریز و رسید آنرا از طریق پیامک یا واتساپ به شماره
+            واریز و رسید آنرا از طریق پیامک یا ایتا به شماره
         @mobile
         ارسال فرمایید.
     </p>
@@ -42,7 +71,8 @@
 
 @code 
 {
-    int gheymat= 0;
+    string gheymatStudent = "";
+    string gheymatSabt = "";
     string shomareHesab = "0104351469001";
     string mobile = "09132708341";
 
@@ -51,19 +81,24 @@
         await base.OnInitializedAsync();
 
         try
-        {
-            //var settings = await Http.GetFromJsonAsync<Settings>("settings.json");
+        {            
             var strPrice = await Http.GetFromJsonAsync<TbActionResult<String>>(
                                     $"api/Settings/GetValueOf?label=StudentVersionPrice"
                                     );
 
             if (strPrice.Success)
             {
-                int price = 0;
-                if (int.TryParse(strPrice.Object, out price))
-                    gheymat = price;
-                else
-                    gheymat = 200;
+                gheymatStudent = strPrice.Object;
+            }
+
+            //-------
+            strPrice = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                                    $"api/Settings/GetValueOf?label=SabtVersionPrice"
+                                    );
+
+            if (strPrice.Success)
+            {
+                gheymatSabt = strPrice.Object;
             }
 
             //-------
