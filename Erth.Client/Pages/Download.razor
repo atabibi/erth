@@ -2,7 +2,43 @@
 @inject HttpClient Http
 
 <h3 class="center">دانلود نرم افزار ارث</h3>
-<h4 class="text-danger center">بزودی نسخه مخصوص سازمان ثبت احوال ارائه خواهد شد</h4>
+<h4 class="text-danger center">@ImportantNews</h4>
+
+@* نسخه مخصوص ثبت احوال *@
+<div class="card" style="margin-top:15px;">
+    <img style="width: 80%; margin:auto;" src="images/Erth4.3ForSabt.png" class="card-img-top" alt="نرم افزار ارث نسخه ۴/۳ ثبت احوال">
+    <div class="card-body">
+        <h5 class="card-title text-success">دانلود @SabtVersionFullName</h5>
+        <p class="card-text">
+        <p>
+            <span class="text-danger">امکانات جدید:</span>
+            این نسخه برای استفاده در سازمان ثبت احوال کشور بهینه سازی شده است و امکان ایجاد گزارش با فرمت میکروسافت ورد را به کاربر می دهد
+        </p>
+        <p>
+            <span class="text-danger">سیستم مورد نیاز:</span>
+            نسخه ۴/۳ بر روی ویندوز ۷ و ۸ و نسخ مختلف ویندوز ۱۰ و ۱۱ قابل نصب است.
+            امکان نصب این نسخه بر روی
+            <span class="text-danger">
+                ویندوز ایکس پی وجود ندارد.
+            </span>
+        </p>
+        <p>
+            <span class="text-danger">مهم:</span>
+            این نسخه از نرم‌افزار برای اجرا نیاز به
+            .Net Framework @DotNetFrameWorkVersionForSabt
+            یا بالاتر دارد. از آنجاییکه معمولا فریمورک فوق بر روی ویندوزهای
+            ۷ و بالاتر نصب می‌باشد به منظور کاهش حجم دانلود، در داخل برنامه‌ی نصب قرار داده نشده است
+            در صورت نیاز می‌توانید آنرا از لینک زیر دانلود و نصب نمایید:
+        <p><a href="@DotNetFrameWorkForSabtDownloadLink" target="_blank" class="btn btn-light">دانلود .Net Framework @DotNetFrameWorkVersionForSabt</a></p>
+        </p>
+        </p>
+        <div class="text-center">
+            <a href="@SabtVersionDownloadLink" target="_blank" class="btn btn-success">دانلود @SabtVersionFullName</a>
+        </div>
+    </div>
+</div>
+
+@* نسخه علمی کاربردی *@
 <div class="card"  style="margin-top:15px;">
     <img style="width: 80%; margin:auto;" src="images/Erth3.4Scientific.png" class="card-img-top" alt="نرم افزار ارث نسخه ۳/۴ علمی کاربردی">
     <div class="card-body">
@@ -127,11 +163,16 @@
 
 @code
 {
+    string ImportantNews = "";
+
     string StudentVersionDownloadLink = "";
     string StudentVersionFullName;
 
     string ProVersionDownloadLink = "";
     string ProVersionFullName;
+
+    string SabtVersionDownloadLink = "";
+    string SabtVersionFullName;
 
     string AlmirathVersionDownloadLink = "";
     string AlmirathVersionFullName;
@@ -139,14 +180,27 @@
     string DotNetFrameWorkVersion = "";
     string DotNetFrameWorkDownloadLink = "";
 
+    string DotNetFrameWorkVersionForSabt = "";
+    string DotNetFrameWorkForSabtDownloadLink = "";
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
         try
         {
-            //----------Student----------
+            //----------خبر مهم----------
             var str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                                   $"api/Settings/GetValueOf?label=ImportantNews"
+                                   );
+
+            if (str.Success)
+            {
+                ImportantNews = str.Object;
+            }
+
+            //----------Student----------
+            str = await Http.GetFromJsonAsync<TbActionResult<String>>(
                                    $"api/Settings/GetValueOf?label=StudentVersionDownloadLink"
                                    );
 
@@ -162,6 +216,26 @@
             if (str.Success)
             {
                 StudentVersionFullName = str.Object;
+            }
+
+            //Todo:  باید نسخه ثبت احوال اضافه شود
+            // -----------Sabt--------------
+            str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                          $"api/Settings/GetValueOf?label=SabtVersionDownloadLink"
+                          );
+
+            if (str.Success)
+            {
+                SabtVersionDownloadLink = str.Object;
+            }
+            //-----
+            str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                                  $"api/Settings/GetValueOf?label=SabtVersionFullName"
+                                  );
+
+            if (str.Success)
+            {
+                SabtVersionFullName = str.Object;
             }
 
             // -----------PRO--------------
@@ -210,6 +284,15 @@
             if (str.Success)
             {
                 DotNetFrameWorkVersion = str.Object;
+            }
+
+            str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                         $"api/Settings/GetValueOf?label=DotNetFrameWorkVersionForSabt"
+                         );
+
+            if (str.Success)
+            {
+                DotNetFrameWorkVersionForSabt = str.Object;
             }
             //------------
             str = await Http.GetFromJsonAsync<TbActionResult<String>>(

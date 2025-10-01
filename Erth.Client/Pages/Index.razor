@@ -1,6 +1,8 @@
 ﻿@page "/"
+@inject HttpClient Http
+
 <h3 class="center">نرم افزار ارث</h3>
-<h4 class="text-danger center"> ***بزودی نسخه مخصوص سازمان ثبت احوال ارائه خواهد شد*** </h4>
+<h4 class="text-danger center">@ImportantNews</h4>
 <img src="images/Erth03Software_Big.png" alt="تصویری از نرم افزار ارث" class="center" style="width: 90%;">
 
 <section>
@@ -37,3 +39,31 @@
         <li>نسخه مخصوص ادارات ثبت اسناد و املاک کشور</li>
     </ul>
 </section>
+
+@code {
+    string ImportantNews = "";
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        try
+        {
+            //----------خبر مهم----------
+            var str = await Http.GetFromJsonAsync<TbActionResult<String>>(
+                                   $"api/Settings/GetValueOf?label=ImportantNews"
+                                   );
+
+            if (str.Success)
+            {
+                ImportantNews = str.Object;
+            }
+            
+
+        }
+
+        catch (System.Exception err)
+        {
+            Console.WriteLine(err.ToString());
+        }
+    }
+}
